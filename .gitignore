@@ -28,3 +28,12 @@ Thumbs.db
 paper/_build/
 paper/*.aux
 paper/*.toc
+
+# One-off probe artifacts
+tools/*.png
+tools/*.csv
+tools/case_*.py
+tools/explore_*.py
+tools/probe_valution*.py
+tools/*.log
+paper/section*.md

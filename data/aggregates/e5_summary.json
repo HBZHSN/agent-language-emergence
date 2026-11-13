@@ -1,0 +1,43 @@
+{
+  "dispatch_rows": 1219,
+  "initial_dispatches": 176,
+  "by_role": {
+    "parser": 88,
+    "reviewer": 88
+  },
+  "mean_text_len": 2257.9,
+  "mean_tokens": 393.4,
+  "mean_slots": 6.93,
+  "mean_jargon_per_1k": 68.34,
+  "mean_template_similarity": 0.5852,
+  "regression": {
+    "n": 176,
+    "coef_job_order_z": 0.1327,
+    "ci_low": 0.0305,
+    "ci_high": 0.2349,
+    "p": 0.011,
+    "r2": 0.5511,
+    "coef_per_10_jobs_pct": 276.83
+  },
+  "correlations": {
+    "parser": {
+      "spearman_len_order": -0.164,
+      "spearman_slots_order": -0.244,
+      "spearman_sim_order": -0.487,
+      "spearman_jargon_order": 0.638,
+      "n": 88
+    },
+    "reviewer": {
+      "spearman_len_order": -0.113,
+      "spearman_slots_order": -0.444,
+      "spearman_sim_order": -0.553,
+      "spearman_jargon_order": 0.614,
+      "n": 88
+    }
+  },
+  "job_summary": {
+    "spearman_len_order": 0.042,
+    "spearman_jargon_order": 0.4,
+    "n": 152
+  }
+}

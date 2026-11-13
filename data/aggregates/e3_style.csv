@@ -1,0 +1,5 @@
+﻿agent,utterances,tokens,mean_tokens,median_tokens,p90_tokens,ascii_ratio,json_verdict_share,dispatch_share,job_summary_share
+main,791,78468,99.2,86.0,196.0,0.2381,0.0,0.0,0.1922
+parser,3863,322782,83.56,14.0,290.0,0.3457,0.0,0.1957,0.0
+reviewer,4169,330307,79.23,14.0,285.2000000000003,0.3484,0.0,0.1619,0.0
+watchdog,3016,195934,64.96,13.0,245.5,0.4319,0.0046,0.0,0.0

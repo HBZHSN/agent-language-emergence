@@ -1,0 +1,7 @@
+﻿agent,schema,status,calls
+main,empty,error,1176
+main,job,error,600
+main,product,error,455
+main,subagent,error,46
+watchdog,empty,error,2
+watchdog,sql,error,4

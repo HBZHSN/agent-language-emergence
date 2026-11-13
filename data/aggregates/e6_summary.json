@@ -1,0 +1,35 @@
+{
+  "tool_calls": 116131,
+  "official_calls": 113707,
+  "nonofficial_calls": 2424,
+  "nonofficial_share": 0.0209,
+  "distinct_tools": 80,
+  "distinct_nonofficial": 53,
+  "valution_calls": 2283,
+  "valution_by_agent": {
+    "main": 2277,
+    "watchdog": 6
+  },
+  "valution_by_schema": {
+    "empty": 1178,
+    "job": 600,
+    "product": 455,
+    "sql": 4,
+    "subagent": 46
+  },
+  "valution_success": 0,
+  "valution_tokens_input": 249092664,
+  "valution_token_share_of_day": 0.2382,
+  "valution_mean_input_tokens": 109107.6,
+  "valution_median_input_tokens": 105745.0,
+  "main_valution_runs": 5,
+  "main_valution_max_run": 2271,
+  "main_valution_run_distribution": {
+    "1": 3,
+    "3": 1,
+    "2271": 1
+  },
+  "p_valution_after_valution": 0.9978,
+  "p_valution_after_other": 0.0024,
+  "contagion_odds_ratio": 186667.52
+}

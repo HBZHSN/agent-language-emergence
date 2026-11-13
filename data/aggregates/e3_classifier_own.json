@@ -1,0 +1,567 @@
+{
+  "n": 10256,
+  "classes": [
+    "main",
+    "parser",
+    "reviewer",
+    "watchdog"
+  ],
+  "macro_f1": 0.5417,
+  "weighted_f1": 0.6729,
+  "report": {
+    "main": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 639.0
+    },
+    "parser": {
+      "precision": 0.5837118754055808,
+      "recall": 0.579015127132282,
+      "f1-score": 0.5813540151882371,
+      "support": 3107.0
+    },
+    "reviewer": {
+      "precision": 0.6101778656126482,
+      "recall": 0.7069261591299371,
+      "f1-score": 0.6549986740917528,
+      "support": 3494.0
+    },
+    "watchdog": {
+      "precision": 0.9295168762409001,
+      "recall": 0.9313660477453581,
+      "f1-score": 0.9304405432262338,
+      "support": 3016.0
+    },
+    "accuracy": 0.6901326053042122,
+    "macro avg": {
+      "precision": 0.5308516543147823,
+      "recall": 0.5543268335018943,
+      "f1-score": 0.541698308126556,
+      "support": 10256.0
+    },
+    "weighted avg": {
+      "precision": 0.6580515949764321,
+      "recall": 0.6901326053042122,
+      "f1-score": 0.6728784097929758,
+      "support": 10256.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      299,
+      277,
+      63
+    ],
+    [
+      55,
+      1799,
+      1177,
+      76
+    ],
+    [
+      49,
+      901,
+      2470,
+      74
+    ],
+    [
+      0,
+      83,
+      124,
+      2809
+    ]
+  ],
+  "top_coefficients": {
+    "main": [
+      {
+        "term": "回合",
+        "coef": 6.9719
+      },
+      {
+        "term": "核验",
+        "coef": 4.9531
+      },
+      {
+        "term": "启用",
+        "coef": 4.614
+      },
+      {
+        "term": "已发",
+        "coef": 4.5256
+      },
+      {
+        "term": "下发",
+        "coef": 4.3201
+      },
+      {
+        "term": "trial",
+        "coef": 4.2382
+      },
+      {
+        "term": "validate",
+        "coef": 4.0397
+      },
+      {
+        "term": "会话",
+        "coef": 3.9064
+      },
+      {
+        "term": "纠偏",
+        "coef": 3.7419
+      },
+      {
+        "term": "单发",
+        "coef": 3.4335
+      },
+      {
+        "term": "解析 会话",
+        "coef": 3.4164
+      },
+      {
+        "term": "解析",
+        "coef": 3.4099
+      },
+      {
+        "term": "督导",
+        "coef": 3.3311
+      },
+      {
+        "term": "处置",
+        "coef": 3.3091
+      },
+      {
+        "term": "已派",
+        "coef": 3.284
+      },
+      {
+        "term": "收口",
+        "coef": 3.1449
+      },
+      {
+        "term": "单发 validate",
+        "coef": 3.109
+      },
+      {
+        "term": "回帖",
+        "coef": 3.0623
+      },
+      {
+        "term": "通知",
+        "coef": 2.9684
+      },
+      {
+        "term": "核验 会话",
+        "coef": 2.8363
+      },
+      {
+        "term": "授权",
+        "coef": 2.7067
+      },
+      {
+        "term": "人工",
+        "coef": 2.6667
+      },
+      {
+        "term": "一次",
+        "coef": 2.6153
+      },
+      {
+        "term": "核实",
+        "coef": 2.5752
+      },
+      {
+        "term": "派工",
+        "coef": 2.467
+      },
+      {
+        "term": "交单",
+        "coef": 2.311
+      },
+      {
+        "term": "用户",
+        "coef": 2.2807
+      },
+      {
+        "term": "闭环",
+        "coef": 2.2603
+      },
+      {
+        "term": "队列",
+        "coef": 2.1833
+      },
+      {
+        "term": "watchdog",
+        "coef": 2.1743
+      }
+    ],
+    "parser": [
+      {
+        "term": "trial",
+        "coef": 4.5257
+      },
+      {
+        "term": "before",
+        "coef": 2.3183
+      },
+      {
+        "term": "step",
+        "coef": 2.0951
+      },
+      {
+        "term": "suffix",
+        "coef": 2.0201
+      },
+      {
+        "term": "module_02",
+        "coef": 1.9801
+      },
+      {
+        "term": "xlsx",
+        "coef": 1.9702
+      },
+      {
+        "term": "绑定",
+        "coef": 1.9622
+      },
+      {
+        "term": "模块",
+        "coef": 1.9501
+      },
+      {
+        "term": "first per",
+        "coef": 1.8953
+      },
+      {
+        "term": "module_04",
+        "coef": 1.8541
+      },
+      {
+        "term": "ruling",
+        "coef": 1.8527
+      },
+      {
+        "term": "release",
+        "coef": 1.8505
+      },
+      {
+        "term": "shell 故障",
+        "coef": 1.8355
+      },
+      {
+        "term": "直查",
+        "coef": 1.7295
+      },
+      {
+        "term": "trial passed",
+        "coef": 1.7139
+      },
+      {
+        "term": "shared",
+        "coef": 1.7026
+      },
+      {
+        "term": "份额",
+        "coef": 1.6444
+      },
+      {
+        "term": "layers",
+        "coef": 1.6011
+      },
+      {
+        "term": "read only",
+        "coef": 1.5997
+      },
+      {
+        "term": "bound",
+        "coef": 1.5938
+      },
+      {
+        "term": "净值",
+        "coef": 1.5902
+      },
+      {
+        "term": "layer",
+        "coef": 1.5878
+      },
+      {
+        "term": "now",
+        "coef": 1.5835
+      },
+      {
+        "term": "普查",
+        "coef": 1.5452
+      },
+      {
+        "term": "套件",
+        "coef": 1.5045
+      },
+      {
+        "term": "只读",
+        "coef": 1.4982
+      },
+      {
+        "term": "标定",
+        "coef": 1.4923
+      },
+      {
+        "term": "layout",
+        "coef": 1.4666
+      },
+      {
+        "term": "写入",
+        "coef": 1.4637
+      },
+      {
+        "term": "failure evidence",
+        "coef": 1.4478
+      }
+    ],
+    "reviewer": [
+      {
+        "term": "review",
+        "coef": 3.4278
+      },
+      {
+        "term": "my",
+        "coef": 2.7574
+      },
+      {
+        "term": "独立",
+        "coef": 2.748
+      },
+      {
+        "term": "now",
+        "coef": 2.6761
+      },
+      {
+        "term": "lock",
+        "coef": 2.5635
+      },
+      {
+        "term": "review file",
+        "coef": 2.0958
+      },
+      {
+        "term": "independently",
+        "coef": 2.0881
+      },
+      {
+        "term": "independent",
+        "coef": 1.946
+      },
+      {
+        "term": "submitting",
+        "coef": 1.8756
+      },
+      {
+        "term": "ast",
+        "coef": 1.8146
+      },
+      {
+        "term": "变异",
+        "coef": 1.7771
+      },
+      {
+        "term": "claim",
+        "coef": 1.7361
+      },
+      {
+        "term": "fixing",
+        "coef": 1.6956
+      },
+      {
+        "term": "整段",
+        "coef": 1.6789
+      },
+      {
+        "term": "c9c",
+        "coef": 1.6722
+      },
+      {
+        "term": "逐字",
+        "coef": 1.6558
+      },
+      {
+        "term": "harness",
+        "coef": 1.6461
+      },
+      {
+        "term": "green",
+        "coef": 1.603
+      },
+      {
+        "term": "contract",
+        "coef": 1.5997
+      },
+      {
+        "term": "减尺",
+        "coef": 1.5977
+      },
+      {
+        "term": "terminal",
+        "coef": 1.5863
+      },
+      {
+        "term": "正式 核验",
+        "coef": 1.5477
+      },
+      {
+        "term": "顶层",
+        "coef": 1.5402
+      },
+      {
+        "term": "vstub",
+        "coef": 1.4781
+      },
+      {
+        "term": "negative",
+        "coef": 1.4536
+      },
+      {
+        "term": "gates",
+        "coef": 1.4368
+      },
+      {
+        "term": "column",
+        "coef": 1.4367
+      },
+      {
+        "term": "validation",
+        "coef": 1.4363
+      },
+      {
+        "term": "assembly",
+        "coef": 1.433
+      },
+      {
+        "term": "w4",
+        "coef": 1.4251
+      }
+    ],
+    "watchdog": [
+      {
+        "term": "核对",
+        "coef": 10.8051
+      },
+      {
+        "term": "是否",
+        "coef": 6.4575
+      },
+      {
+        "term": "reviewer",
+        "coef": 4.6474
+      },
+      {
+        "term": "最新",
+        "coef": 4.5829
+      },
+      {
+        "term": "消息",
+        "coef": 4.1659
+      },
+      {
+        "term": "session",
+        "coef": 4.0944
+      },
+      {
+        "term": "seq",
+        "coef": 3.6166
+      },
+      {
+        "term": "确认",
+        "coef": 3.6075
+      },
+      {
+        "term": "agent",
+        "coef": 3.4519
+      },
+      {
+        "term": "glob",
+        "coef": 3.4144
+      },
+      {
+        "term": "latest",
+        "coef": 3.3733
+      },
+      {
+        "term": "messages",
+        "coef": 3.1553
+      },
+      {
+        "term": "json",
+        "coef": 3.0853
+      },
+      {
+        "term": "结论",
+        "coef": 3.0566
+      },
+      {
+        "term": "recent",
+        "coef": 2.9403
+      },
+      {
+        "term": "会话",
+        "coef": 2.8535
+      },
+      {
+        "term": "近期",
+        "coef": 2.8474
+      },
+      {
+        "term": "msg",
+        "coef": 2.8015
+      },
+      {
+        "term": "关键",
+        "coef": 2.6966
+      },
+      {
+        "term": "结果",
+        "coef": 2.6966
+      },
+      {
+        "term": "状态",
+        "coef": 2.5934
+      },
+      {
+        "term": "判断",
+        "coef": 2.5901
+      },
+      {
+        "term": "会话库",
+        "coef": 2.5333
+      },
+      {
+        "term": "crash",
+        "coef": 2.5321
+      },
+      {
+        "term": "state",
+        "coef": 2.5287
+      },
+      {
+        "term": "目录",
+        "coef": 2.5242
+      },
+      {
+        "term": "最近",
+        "coef": 2.4199
+      },
+      {
+        "term": "streaming",
+        "coef": 2.413
+      },
+      {
+        "term": "current",
+        "coef": 2.3953
+      },
+      {
+        "term": "当前",
+        "coef": 2.3584
+      }
+    ]
+  },
+  "vectorizer_features": 38673
+}

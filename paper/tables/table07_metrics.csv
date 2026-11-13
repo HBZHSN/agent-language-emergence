@@ -1,0 +1,5 @@
+﻿metric,value
+n,11839.0
+macro_f1,0.653
+weighted_f1,0.7176
+vectorizer_features,60000.0

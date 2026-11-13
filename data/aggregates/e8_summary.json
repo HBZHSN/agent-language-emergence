@@ -1,0 +1,184 @@
+{
+  "bins": 28,
+  "bin_size": "6h",
+  "new_terms_total": 69,
+  "trial_errors_total": 312,
+  "validate_errors_total": 381,
+  "watchdog_main_total": 321,
+  "valution_total": 2283,
+  "regression": {
+    "coef": {
+      "const": -9.7385,
+      "trial_errors": -0.0353,
+      "validate_errors": -0.0313,
+      "watchdog_main": 0.0516,
+      "valution_calls": -0.0026
+    },
+    "p": {
+      "const": 0.0,
+      "trial_errors": 0.013,
+      "validate_errors": 0.0183,
+      "watchdog_main": 0.023,
+      "valution_calls": 0.5492
+    },
+    "n": 28,
+    "pseudo_r2": 0.1396
+  },
+  "contrast": {
+    "median_trial_errors": 5.0,
+    "high_n": 13,
+    "low_n": 15,
+    "high_mean": 1.23,
+    "low_mean": 3.53,
+    "mannwhitney_p": 0.2035
+  },
+  "correlations": [
+    {
+      "a": "new_terms",
+      "b": "trial_errors",
+      "spearman": -0.2,
+      "p": 0.3081,
+      "n": 28
+    },
+    {
+      "a": "new_terms",
+      "b": "validate_errors",
+      "spearman": 0.181,
+      "p": 0.3559,
+      "n": 28
+    },
+    {
+      "a": "new_terms",
+      "b": "watchdog_main",
+      "spearman": 0.414,
+      "p": 0.0287,
+      "n": 28
+    },
+    {
+      "a": "new_terms",
+      "b": "valution_calls",
+      "spearman": 0.129,
+      "p": 0.5132,
+      "n": 28
+    },
+    {
+      "a": "new_terms",
+      "b": "tokens",
+      "spearman": 0.022,
+      "p": 0.9106,
+      "n": 28
+    },
+    {
+      "a": "trial_errors",
+      "b": "validate_errors",
+      "spearman": 0.372,
+      "p": 0.0511,
+      "n": 28
+    },
+    {
+      "a": "trial_errors",
+      "b": "watchdog_main",
+      "spearman": 0.453,
+      "p": 0.0154,
+      "n": 28
+    },
+    {
+      "a": "trial_errors",
+      "b": "valution_calls",
+      "spearman": 0.328,
+      "p": 0.0888,
+      "n": 28
+    },
+    {
+      "a": "validate_errors",
+      "b": "watchdog_main",
+      "spearman": 0.581,
+      "p": 0.0012,
+      "n": 28
+    },
+    {
+      "a": "validate_errors",
+      "b": "valution_calls",
+      "spearman": 0.158,
+      "p": 0.4232,
+      "n": 28
+    },
+    {
+      "a": "valution_calls",
+      "b": "watchdog_main",
+      "spearman": 0.236,
+      "p": 0.2262,
+      "n": 28
+    },
+    {
+      "a": "tokens",
+      "b": "trial_errors",
+      "spearman": 0.619,
+      "p": 0.0004,
+      "n": 28
+    },
+    {
+      "a": "tokens",
+      "b": "validate_errors",
+      "spearman": 0.692,
+      "p": 0.0,
+      "n": 28
+    },
+    {
+      "a": "tokens",
+      "b": "watchdog_main",
+      "spearman": 0.723,
+      "p": 0.0,
+      "n": 28
+    },
+    {
+      "a": "tokens",
+      "b": "valution_calls",
+      "spearman": -0.049,
+      "p": 0.8036,
+      "n": 28
+    },
+    {
+      "a": "jobs_created",
+      "b": "new_terms",
+      "spearman": 0.132,
+      "p": 0.5024,
+      "n": 28
+    },
+    {
+      "a": "jobs_created",
+      "b": "trial_errors",
+      "spearman": 0.291,
+      "p": 0.1324,
+      "n": 28
+    },
+    {
+      "a": "jobs_created",
+      "b": "validate_errors",
+      "spearman": 0.529,
+      "p": 0.0038,
+      "n": 28
+    },
+    {
+      "a": "jobs_created",
+      "b": "watchdog_main",
+      "spearman": 0.588,
+      "p": 0.001,
+      "n": 28
+    },
+    {
+      "a": "jobs_created",
+      "b": "valution_calls",
+      "spearman": 0.214,
+      "p": 0.2745,
+      "n": 28
+    },
+    {
+      "a": "jobs_created",
+      "b": "tokens",
+      "spearman": 0.499,
+      "p": 0.0069,
+      "n": 28
+    }
+  ]
+}

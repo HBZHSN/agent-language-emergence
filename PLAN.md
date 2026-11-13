@@ -120,46 +120,46 @@
 
 ## 3. 阶段 C：语料抽取与冻结
 
-- [ ] **C1. 会话级导出**
+- [x] **C1. 会话级导出**
   - 字段：session_id、parent_id、agent、title、model、time_created/updated、tokens_*、cost、message_count、tool_call_count、job_id（若能映射）。
   - 输出 `data/derived/sessions.parquet`。
   - 验收：行数 = 2,202；agent 分布与 B1 一致。
 
-- [ ] **C2. 消息级导出**
+- [x] **C2. 消息级导出**
   - 字段：message_id、session_id、agent、type、seq、time_created、finish、error、text、text_len、tool_call_count、tokens_input/output、model。
   - 文本只保留 assistant 的 text parts 与 user/synthetic 的 `text`；工具结果另表。
   - 输出 `data/derived/messages.parquet`。
   - 验收：行数 = 110,413；text 总字符数、空文本率有记录。
 
-- [ ] **C3. 工具调用级导出**
+- [x] **C3. 工具调用级导出**
   - 字段：message_id、session_id、agent、tool_name、status、input_json、input_len、error_type、error_message、result_excerpt（前 2,000 字符）、duration_ms。
   - 保留官方工具名与变异名；不丢错误调用。
   - 输出 `data/derived/tool_calls.parquet`。
   - 验收：行数 = 116,131；`valution` 2,283 次、`valuation_session_db` 21,486 completed + 3,808 error 等关键计数可复现。
 
-- [ ] **C4. 文本话语级导出**
+- [x] **C4. 文本话语级导出**
   - 将每条消息的文本切成“话语单元”：assistant text part、user 派工、synthetic 通知、watchdog 最终 JSON。
   - 字段：utterance_id、session_id、agent、role（main/parser/reviewer/watchdog/human/system）、act（dispatch/report/reject/verdict/status/other）、text、time、job_id。
   - 输出 `data/derived/utterances.parquet`。
   - 验收：至少覆盖 11,597 个 assistant text parts + 3,437 个 user 消息 + 874 个 synthetic；人工抽查 20 条分类正确。
 
-- [ ] **C5. 派工—回报配对**
+- [x] **C5. 派工—回报配对**
   - 从 `subagent` 工具调用、子会话 `parent_id`、job 表的 `child_session/review_session` 重建 main→parser/reviewer 的派工关系。
   - 字段：job_id、round、dispatch_utterance_id、child_session、dispatch_text、report_text、outcome、duration。
   - 输出 `data/derived/dispatches.parquet`。
   - 验收：124 个 parser 会话、111 个 reviewer 会话均有配对或明确缺失原因。
 
-- [ ] **C6. 业务结果聚合**
+- [x] **C6. 业务结果聚合**
   - 按产品/日/job 聚合：sources、results、bindings、releases、失败数、冲突数、净值覆盖。
   - 输出 `data/aggregates/c6_outcomes.csv`。
   - 验收：43,829 results、720 active bindings、19 releases、154 jobs 可对上。
 
-- [ ] **C7. 种子文本与种子词表**
+- [x] **C7. 种子文本与种子词表**
   - 汇总四个系统提示词、工具描述、`contracts.md`、README/AGENTS/方案中的术语，形成 T0（提示词）/T1（项目文档）词表。
   - 输出 `data/aggregates/c7_seed_terms.csv`，字段：term、source、tier、first_seen_in_seed。
   - 验收：至少覆盖 500 个词/短语；人工核对 30 个高频词。
 
-- [ ] **C8. 冻结语料与清单**
+- [x] **C8. 冻结语料与清单**
   - 对源 DB、关键源文件、派生 parquet 计算 SHA256、行数、生成时间。
   - 输出 `data/manifest/manifest.json`。
   - 验收：重跑 C1–C7 得到相同行数与哈希（允许时间戳字段差异，需在文档中说明）。
@@ -168,41 +168,41 @@
 
 ## 4. 阶段 D：测量框架与预实验
 
-- [ ] **D1. 分词与规范化**
+- [x] **D1. 分词与规范化**
   - 中文：jieba + 自定义词典（工具名、业务术语、Agent 行话）；英文/代码标识符：正则保留 `valuation_*`、`self_check`、`job_id` 等为一个 token。
   - 处理全角/半角、大小写、路径、哈希、数字掩码；保留 `红位`、`收口` 等行话原形。
   - 验收：对 100 条人工标注文本的分词 F1 ≥ 0.9（或错误率 < 10%）。
 
-- [ ] **D2. 词汇多样性指标**
+- [x] **D2. 词汇多样性指标**
   - 计算每 Agent/每天/每 job 的 token 数、type 数、TTR、MATTR（窗口 500）、hapax 比例、Zipf 斜率。
   - 验收：`data/aggregates/d2_diversity.csv`；抽样复核 3 个时间窗。
 
-- [ ] **D3. 角色方言指标**
+- [x] **D3. 角色方言指标**
   - 多项分布的对数几率比（Monroe et al. 2008，informative Dirichlet prior）；输出每 Agent 的 top 50 特征词/短语。
   - 训练 TF-IDF + 逻辑回归分类器，按 session 分组交叉验证，报告 macro-F1、混淆矩阵。
   - 验收：分类器与 top 词表可复现；基线（多数类）对比明确。
 
-- [ ] **D4. 收敛/分化指标**
+- [x] **D4. 收敛/分化指标**
   - 每时间窗（建议 6 小时或 1 天）计算 Agent 两两的 unigram Jensen–Shannon 距离、词汇 Jaccard、风格向量距离（句长、代码混合、标点、模板覆盖率）。
   - 零模型：保持每 Agent 消息量、随机重分配消息；bootstrap 95% CI。
   - 验收：`data/aggregates/d4_divergence.csv`；零模型分布与观测值对比图。
 
-- [ ] **D5. 压缩/规约化指标**
+- [x] **D5. 压缩/规约化指标**
   - 派工文本：字符数、token 数、句数、信息槽位（job_id、scope、路径、禁止项、证据）覆盖率、与前序派工的最大 n-gram 覆盖率、最近邻余弦相似度。
   - 回报文本：长度、结构化比例（标题/列表/JSON）、证据路径数、结论词位置。
   - 验收：按 job 序号的时间序列可复现；控制产品/复杂度后的回归结果。
 
-- [ ] **D6. 工具语法指标**
+- [x] **D6. 工具语法指标**
   - 官方工具名集合、变异名集合、编辑距离、错误率、首次出现、持续时长、每次出现前后的上下文。
   - 工具调用序列的 bigram/trigram 转移矩阵；每 Agent 的“工具语法”熵。
   - 验收：`data/aggregates/d6_tool_grammar.csv`；`valution` 与 `valuation_session_db` 变异族的完整清单。
 
-- [ ] **D7. 协议/图式指标**
+- [x] **D7. 协议/图式指标**
   - 从工具输入 JSON 提取 key 集合、key 顺序、嵌套深度；从 Watchdog 输出提取 `decision/summary/evidence` 合规率。
   - 统计状态词（healthy/main/human、passed/failed、approved/rejected）的用法与共现。
   - 验收：`data/aggregates/d7_schema.csv`；至少 3 个图式的标准化曲线。
 
-- [ ] **D8. 预实验与阈值冻结**
+- [x] **D8. 预实验与阈值冻结**
   - 在 10% 分层样本上跑 D2–D7，检查稀疏性、长尾、Agent 样本量不均衡。
   - 冻结主分析阈值：候选词最小频次、最少 session 数、最少 Agent 数、存活天数。
   - 验收：`docs/methods.md` 写明所有阈值及其敏感性分析计划。
@@ -211,70 +211,70 @@
 
 ## 5. 阶段 E：主实验
 
-- [ ] **E1. 语料规模与活动结构（描述性）**
+- [x] **E1. 语料规模与活动结构（描述性）**
   - 表：按 Agent 的会话/消息/工具调用/token/文本量；按日的活动曲线；会话时长分布；job 生命周期。
   - 图：24 小时活动热图、累计 token 曲线、Agent 会话量对比。
   - 验收：论文第 4 节所有数字可由 `data/aggregates/e1_*.csv` 复现。
 
-- [ ] **E2. 涌现词表与扩散（RQ1）**
+- [x] **E2. 涌现词表与扩散（RQ1）**
   - 用 T2 候选（不在 T0/T1）按频次、session 广度、Agent 广度、存活天数筛选；人工复核 top 100。
   - 对每个词计算：首现时间/Agent、采用 Agent 数、采用 session 数、扩散半衰期、存活天数、使用峰值。
   - 图：Top 20 涌现词的首现—扩散热图；3 条典型词的扩散曲线。
   - 验收：`data/aggregates/e2_emergent_terms.csv`；论文报告候选数、通过数、Top 20 表。
 
-- [ ] **E3. 角色方言（RQ2）**
+- [x] **E3. 角色方言（RQ2）**
   - 对数几率比 top 词表；分类器 macro-F1；混淆矩阵；每条消息的“方言得分”。
   - 图：四象限 dialect map（用多维缩放或 PCA）；top 特征词条形图。
   - 验收：`data/aggregates/e3_dialect_terms.csv`、`e3_classifier.json`；分类器按 session 交叉验证。
 
-- [ ] **E4. 收敛与分化（RQ3）**
+- [x] **E4. 收敛与分化（RQ3）**
   - 按 6 小时/天计算两两 JS 距离、Jaccard、风格距离；拟合时间趋势（含 bootstrap CI）。
   - 区分“共享词汇收敛”与“角色语域分化”：前者应下降，后者应保持。
   - 图：4×4 距离热图（早期 vs 晚期）、时间趋势线。
   - 验收：`data/aggregates/e4_divergence.csv`；趋势斜率、CI、p 值。
 
-- [ ] **E5. 通信压缩与模板化（RQ4）**
+- [x] **E5. 通信压缩与模板化（RQ4）**
   - 派工文本长度/信息槽位随 job 序号的变化；回报文本长度/结构化比例；模板覆盖率。
   - 回归：log(length) ~ job_order + complexity + agent + day，bootstrap 聚类到 job。
   - 图：派工长度与信息槽位双轴图；模板覆盖率曲线。
   - 验收：`data/aggregates/e5_compression.csv`；至少 3 个控制变量。
 
-- [ ] **E6. 工具名变异与选择（RQ5）**
+- [x] **E6. 工具名变异与选择（RQ5）**
   - 变异族谱：`valuation_session_db` → `valution_session_db` → `valutation_session_db` → ...；编辑距离图。
   - 计算变异率、错误率、复现率、存活时间；比较 `valution` 与随机错拼基线。
   - 事件研究：第一次 `valution` 前后 30 分钟的消息/错误/纠偏。
   - 图：变异网络图；`valution` 每小时频次与错误率。
   - 验收：`data/aggregates/e6_tool_mutations.csv`；论文报告 2,283 次 `valution` 的完整统计。
 
-- [ ] **E7. 协议与图式标准化（RQ5/RQ6）**
+- [x] **E7. 协议与图式标准化（RQ5/RQ6）**
   - Watchdog JSON 合规率、字段缺失率、evidence 数量分布；工具输入 key 集合的标准化。
   - 图：JSON 合规率时间线；key 共现网络。
   - 验收：`data/aggregates/e7_protocol.csv`；至少 3 个图式的首次出现与稳定时间。
 
-- [ ] **E8. 事件对齐：失败、修复与创新爆发（RQ5）**
+- [x] **E8. 事件对齐：失败、修复与创新爆发（RQ5）**
   - 以 job 失败/trial 失败/validate 失败/watchdog `main` 判决为事件，统计事件前后 1 小时的新词率、行话率、派工压缩率。
   - 负二项回归或泊松回归：新词数 ~ 失败数 + 新 job 数 + 时段固定效应。
   - 图：事件研究系数图；创新爆发时间线。
   - 验收：`data/aggregates/e8_event_study.csv`；报告效应量与 CI，避免把相关当因果。
 
-- [ ] **E9. 语言特征与 job 结果（RQ6）**
+- [x] **E9. 语言特征与 job 结果（RQ6）**
   - 单元：job（n=154）；结果：activated vs failed/deferred；轮次；watchdog 干预次数。
   - 特征：派工压缩率、行话密度、证据路径数、结构化比例、`valution` 次数、review 轮次。
   - 模型：分层/稳健 logistic 或负二项；控制产品复杂度（文件数、签名数、scope 天数）。
   - 图：特征与结果的相关矩阵；预测边际效应。
   - 验收：`data/aggregates/e9_outcomes.csv`；明确样本量与共线性诊断。
 
-- [ ] **E10. 稳健性**
+- [x] **E10. 稳健性**
   - 排除 Watchdog（占会话 89%）重跑 E2–E5；按 Agent 等量抽样；改用 1 天/12 小时窗口；改用词形/短语两种单位；排除 synthetic/boilerplate。
   - 用 session 聚类 bootstrap 重估 CI；用置换检验重估方言显著性。
   - 验收：`data/aggregates/e10_robustness.csv`；主结论在至少 80% 规格下保持方向与显著性。
 
-- [ ] **E11. 人类输入基线**
+- [x] **E11. 人类输入基线**
   - 证明主会话仅有 1 条人类消息（“现在还有哪些任务没有完成”），其余 user 消息均为 Agent/宿主生成。
   - 对比“种子词”与“涌现词”在人类消息中的出现；量化人类 seeding 的上界。
   - 验收：`data/aggregates/e11_human_input.csv`；论文明确区分“自发”与“提示词脚手架”。
 
-- [ ] **E12. 案例研究**
+- [x] **E12. 案例研究**
   - 选取 5 条可追溯的“词源链”：
     1. `红位/绿位` 与失败检查的军事化隐喻；
     2. `收口/单发/一刀` 与高风险修复的仪式化指令；
@@ -288,31 +288,31 @@
 
 ## 6. 阶段 F：图表与论文
 
-- [ ] **F1. 图表规范**
+- [x] **F1. 图表规范**
   - 统一字体（中文用 Microsoft YaHei/SimHei，英文用 DejaVu Sans）、配色、字号、分辨率；图注中英双语或中文。
   - 所有图从 `data/aggregates/` 生成，不手改数字。
   - 验收：`paper/figures/` 10 幅主图 + 附录图；每幅有生成脚本。
 
-- [ ] **F2. 表格规范**
+- [x] **F2. 表格规范**
   - 12 张主表：语料规模、Agent 角色、token 分布、涌现词 Top 20、方言特征词、分类器结果、收敛指标、压缩回归、工具变异、协议合规、事件研究、结果关联。
   - 每张表附 CSV 与 Markdown；显著性与 CI 标注。
   - 验收：表格数字与聚合 CSV 一致。
 
-- [ ] **F3. 论文提纲与写作**
+- [x] **F3. 论文提纲与写作**
   - 结构：摘要；1 引言；2 相关工作；3 研究现场与环境；4 数据与测量；5 结果（RQ1–RQ6）；6 案例研究；7 讨论；8 有效性与局限；9 结论；参考文献；附录 A–D。
   - 写作要求：中文学术体；每个定量 claim 有表/图/附录指向；避免“证明意识/理解”等过度主张；区分描述、相关、因果。
   - 验收：`paper/paper.md` 完成，字数 2.0–2.8 万，参考文献 30–50 条。
 
-- [ ] **F4. 相关工作与引用核验**
+- [x] **F4. 相关工作与引用核验**
   - 覆盖：emergent communication（Lewis games、TarC、Lazaridou et al.）、LLM multi-agent collaboration、linguistic convergence/communication accommodation、sociolect/argot、tool learning/tool-augmented LLM、LLM agent production studies。
   - 每条引用核对标题/作者/年份/DOI 或 URL；无法核验的不引用。
   - 验收：`paper/refs.bib` 或 `paper/references.md`；正文引用与文献表一一对应。
 
-- [ ] **F5. 生成 HTML/PDF**
+- [x] **F5. 生成 HTML/PDF**
   - 用 Edge headless 将 `paper/paper.html` 打印为 A4 PDF；检查中文字体、图表、表格、页码、目录。
   - 验收：`paper/paper.pdf` 可打开，页数 ≥ 30，图表不溢出。
 
-- [ ] **F6. 内部审稿**
+- [x] **F6. 内部审稿**
   - 按 checklist 自审：研究问题是否回答、方法是否可复现、数字是否一致、因果是否过度、局限是否充分、伦理是否说明。
   - 至少做一轮“红队”：假设结论相反，找反例；把反例写入局限或稳健性。
   - 验收：`docs/review_checklist.md` 全部打勾；红队记录在 `docs/red_team.md`。
@@ -321,15 +321,15 @@
 
 ## 7. 阶段 G：复现、交付与收尾
 
-- [ ] **G1. 一键复现**
+- [x] **G1. 一键复现**
   - `python analysis/run_all.py --check`：从只读源库重建聚合、图、表，校验 manifest；不修改源数据。
   - 验收：在干净目录/新进程下跑通；输出哈希与 manifest 一致（允许白名单时间戳差异）。
 
-- [ ] **G2. 数字对账**
+- [x] **G2. 数字对账**
   - 论文中每个数字与 `data/aggregates/*.csv` 对账；随机抽取 30 个数字人工复核。
   - 验收：`docs/number_audit.md` 记录抽查结果，0 处不一致。
 
-- [ ] **G3. 隐私与安全**
+- [x] **G3. 隐私与安全**
   - 检查论文/图表/聚合数据不含 `.env` 密钥、OpenCode password、数据库凭据、个人邮箱、真实产品敏感信息（产品名可保留？按用户要求，使用公开的基金代码/名称可能敏感；默认脱敏为 P001… 或保留代码？需在论文中说明。数据源是内部生产数据，论文中产品名可改为“产品 A/B”或保留代码；为可复核性保留代码，名称脱敏）。
   - 验收：`docs/ethics.md`；grep 检查无密钥模式。
 

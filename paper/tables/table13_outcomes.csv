@@ -1,0 +1,10 @@
+﻿metric,value
+jobs,154.000
+failed_or_deferred,5.000
+with_dispatch,95.000
+jargon_rounds_all,0.657
+jargon_rounds_with_dispatch,0.253
+jargon_rounds_with_dispatch_p,0.013
+poisson_jargon_coef,0.208
+poisson_jargon_p,0.019
+poisson_r2,0.070

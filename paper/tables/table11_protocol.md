@@ -1,0 +1,12 @@
+| metric | value |
+|---|---|
+| verdict_attempts | 1119.000 |
+| valid_verdicts | 923.000 |
+| valid_rate | 0.825 |
+| order_ok_rate | 0.824 |
+| decision_healthy | 601.000 |
+| decision_main | 321.000 |
+| decision_human | 1.000 |
+| mean_evidence_n | 6.090 |
+| evidence_gt_6 | 105.000 |
+| mean_exact_match | 0.876 |

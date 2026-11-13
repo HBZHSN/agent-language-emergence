@@ -1,0 +1,110 @@
+{
+  "terms": 69,
+  "directions": {
+    "main-first": 39,
+    "child-first": 28,
+    "main-only": 2
+  },
+  "first_voice": {
+    "main": 36,
+    "reviewer": 14,
+    "parser": 10,
+    "watchdog": 9
+  },
+  "seeded_terms": [
+    "空转",
+    "放宽",
+    "落位",
+    "薄壳",
+    "降级",
+    "返工",
+    "误报",
+    "走偏",
+    "卡点"
+  ],
+  "main_first_top": [
+    {
+      "term": "单发",
+      "count": 2536
+    },
+    {
+      "term": "交单",
+      "count": 2253
+    },
+    {
+      "term": "裁决",
+      "count": 1932
+    },
+    {
+      "term": "在卷",
+      "count": 1859
+    },
+    {
+      "term": "放宽",
+      "count": 1583
+    },
+    {
+      "term": "留证",
+      "count": 1546
+    },
+    {
+      "term": "代际",
+      "count": 1393
+    },
+    {
+      "term": "落盘",
+      "count": 1351
+    },
+    {
+      "term": "漂移",
+      "count": 1166
+    },
+    {
+      "term": "裁定",
+      "count": 1105
+    }
+  ],
+  "child_first_top": [
+    {
+      "term": "逐字",
+      "count": 8950
+    },
+    {
+      "term": "收口",
+      "count": 3231
+    },
+    {
+      "term": "零改",
+      "count": 2421
+    },
+    {
+      "term": "逐格",
+      "count": 1886
+    },
+    {
+      "term": "自证",
+      "count": 1796
+    },
+    {
+      "term": "回执",
+      "count": 1764
+    },
+    {
+      "term": "全绿",
+      "count": 1509
+    },
+    {
+      "term": "全等",
+      "count": 1352
+    },
+    {
+      "term": "闭合",
+      "count": 1213
+    },
+    {
+      "term": "逐字符",
+      "count": 830
+    }
+  ],
+  "median_lag_minutes": 119.7
+}

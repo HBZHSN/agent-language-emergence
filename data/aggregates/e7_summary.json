@@ -1,0 +1,100 @@
+{
+  "verdict_attempts": 1119,
+  "valid_verdicts": 923,
+  "valid_rate": 0.8248,
+  "order_ok_rate": 0.8239,
+  "decision_counts": {
+    "healthy": 601,
+    "main": 321,
+    "human": 1
+  },
+  "decision_off_schema": 0,
+  "mean_summary_len": 986.4,
+  "mean_evidence_n": 6.09,
+  "evidence_gt_6": 105,
+  "tools_with_schema": 24,
+  "mean_exact_match": 0.8761,
+  "mean_jaccard": 0.8193,
+  "top_schema": [
+    {
+      "tool": "shell",
+      "calls": 32511,
+      "canonical_keys": "command",
+      "exact_match": 0.434,
+      "mean_jaccard": 0.7034,
+      "distinct_keysets": 13
+    },
+    {
+      "tool": "read",
+      "calls": 28314,
+      "canonical_keys": "limit,offset,path",
+      "exact_match": 0.6496,
+      "mean_jaccard": 0.821,
+      "distinct_keysets": 20
+    },
+    {
+      "tool": "valuation_session_db",
+      "calls": 25294,
+      "canonical_keys": "sql",
+      "exact_match": 0.9992,
+      "mean_jaccard": 0.9995,
+      "distinct_keysets": 4
+    },
+    {
+      "tool": "glob",
+      "calls": 13181,
+      "canonical_keys": "pattern",
+      "exact_match": 0.4636,
+      "mean_jaccard": 0.6876,
+      "distinct_keysets": 11
+    },
+    {
+      "tool": "edit",
+      "calls": 6701,
+      "canonical_keys": "newString,oldString,path",
+      "exact_match": 0.9612,
+      "mean_jaccard": 0.9867,
+      "distinct_keysets": 21
+    },
+    {
+      "tool": "write",
+      "calls": 3430,
+      "canonical_keys": "content,path",
+      "exact_match": 0.9717,
+      "mean_jaccard": 0.9756,
+      "distinct_keysets": 5
+    },
+    {
+      "tool": "valuation_job",
+      "calls": 1043,
+      "canonical_keys": "job_id",
+      "exact_match": 0.9895,
+      "mean_jaccard": 0.9947,
+      "distinct_keysets": 3
+    },
+    {
+      "tool": "subagent",
+      "calls": 576,
+      "canonical_keys": "agent,background,description,prompt,sessionID",
+      "exact_match": 0.4792,
+      "mean_jaccard": 0.8873,
+      "distinct_keysets": 6
+    },
+    {
+      "tool": "valuation_trial",
+      "calls": 556,
+      "canonical_keys": "job_id,module",
+      "exact_match": 0.9982,
+      "mean_jaccard": 0.9991,
+      "distinct_keysets": 2
+    },
+    {
+      "tool": "valuation_validate",
+      "calls": 504,
+      "canonical_keys": "job_id",
+      "exact_match": 1.0,
+      "mean_jaccard": 1.0,
+      "distinct_keysets": 1
+    }
+  ]
+}

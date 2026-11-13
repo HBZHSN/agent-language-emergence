@@ -1,0 +1,15 @@
+{
+  "user_messages": 3437,
+  "by_agent": {
+    "main": 1,
+    "parser": 756,
+    "reviewer": 676,
+    "watchdog": 2004
+  },
+  "human_messages": 1,
+  "human_chars": 12,
+  "human_text_is_status_query": true,
+  "human_share_of_user_messages": 0.000291,
+  "seed_terms_in_prompts": 261,
+  "note": "Only one human turn exists; all task instructions and corrections are agent/harness generated."
+}

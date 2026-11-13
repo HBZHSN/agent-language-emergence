@@ -1,0 +1,31 @@
+{
+  "utterances": 11843,
+  "tokens": 927491,
+  "curated_candidates": 73,
+  "curated_terms": 69,
+  "terms_with_hits": 69,
+  "terms_all_four_agents": 64,
+  "terms_with_seed_overlap": 9,
+  "top_terms": [
+    "逐字",
+    "收口",
+    "单发",
+    "零改",
+    "交单",
+    "裁决",
+    "逐格",
+    "在卷",
+    "自证",
+    "回执",
+    "放宽",
+    "留证",
+    "全绿",
+    "代际",
+    "全等",
+    "落盘",
+    "闭合",
+    "漂移",
+    "裁定",
+    "注册面"
+  ]
+}

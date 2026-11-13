@@ -1,0 +1,27 @@
+{
+  "jobs": 154,
+  "failed_or_deferred": 5,
+  "with_dispatch": 95,
+  "jargon_rounds_all": 0.657,
+  "jargon_rounds_with_dispatch": 0.253,
+  "jargon_rounds_with_dispatch_p": 0.0135,
+  "regression_rounds": {
+    "n": 90,
+    "coef": {
+      "const": 1.2319,
+      "dispatch_jargon_per_1k": 0.2079,
+      "dispatch_tokens": -0.048
+    },
+    "p": {
+      "const": 0.0,
+      "dispatch_jargon_per_1k": 0.0189,
+      "dispatch_tokens": 0.6274
+    },
+    "pseudo_r2": 0.0702
+  },
+  "descriptives": {
+    "rounds_median": 2.0,
+    "rounds_max": 124.0,
+    "duration_median_min": 1834.35
+  }
+}

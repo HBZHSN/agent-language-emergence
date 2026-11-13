@@ -1,0 +1,107 @@
+{
+  "terms": 1143,
+  "t0_terms": 520,
+  "t1_terms": 623,
+  "top": [
+    {
+      "term": "agent",
+      "tier": "T0",
+      "count": 113
+    },
+    {
+      "term": "解析",
+      "tier": "T0",
+      "count": 93
+    },
+    {
+      "term": "产品",
+      "tier": "T0",
+      "count": 87
+    },
+    {
+      "term": "格式",
+      "tier": "T0",
+      "count": 52
+    },
+    {
+      "term": "任务",
+      "tier": "T0",
+      "count": 47
+    },
+    {
+      "term": "时段",
+      "tier": "T0",
+      "count": 47
+    },
+    {
+      "term": "代码",
+      "tier": "T0",
+      "count": 46
+    },
+    {
+      "term": "绑定",
+      "tier": "T0",
+      "count": 46
+    },
+    {
+      "term": "执行",
+      "tier": "T0",
+      "count": 46
+    },
+    {
+      "term": "模块",
+      "tier": "T0",
+      "count": 46
+    },
+    {
+      "term": "核验",
+      "tier": "T0",
+      "count": 45
+    },
+    {
+      "term": "失败",
+      "tier": "T0",
+      "count": 43
+    },
+    {
+      "term": "业务",
+      "tier": "T0",
+      "count": 41
+    },
+    {
+      "term": "文件",
+      "tier": "T0",
+      "count": 41
+    },
+    {
+      "term": "启用",
+      "tier": "T0",
+      "count": 38
+    },
+    {
+      "term": "工具",
+      "tier": "T0",
+      "count": 37
+    },
+    {
+      "term": "结果",
+      "tier": "T0",
+      "count": 37
+    },
+    {
+      "term": "共享",
+      "tier": "T0",
+      "count": 36
+    },
+    {
+      "term": "独立",
+      "tier": "T0",
+      "count": 36
+    },
+    {
+      "term": "修改",
+      "tier": "T0",
+      "count": 34
+    }
+  ]
+}

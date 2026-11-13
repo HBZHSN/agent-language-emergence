@@ -413,3 +413,9 @@ G1 → G2 → G3 → G4
 - [x] **R3. 发布到 GitHub public**
   - 创建 public 仓库 `agent-language-emergence`，推送 `master` 与 tags `v1.0-paper`、`v1.1-paper`。
   - 验收：`gh repo view` 可见；README 渲染正常；远端无敏感文件。
+
+- [ ] **R4. 公开仓库二次审计与修正**
+  - 对远端 clone 的 16 个 commit、290 个 blob、PDF、PNG、CSV 与 commit metadata 做产品名/代码/机构名/密钥/本地路径扫描。
+  - 发现 `docs/environment.md` 的内网 IP 与历史 AGENTS/reproduction 的本机用户路径；替换为占位符并重写历史。
+  - 强制更新 `master` 与 tags；验证旧 commit SHA 不可达，或如实记录 GitHub 缓存限制。
+  - 验收：远端全历史 0 个产品名/代码/机构名/密钥/内网 IP/本机路径；作者邮箱按用户选择保留。

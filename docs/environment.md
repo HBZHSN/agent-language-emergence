@@ -15,7 +15,7 @@
 | 项 | 值 | 来源 |
 | --- | --- | --- |
 | Provider | `valuation`（OpenAI-compatible，`aisdk:@ai-sdk/openai-compatible`） | `data/opencode/config.json` |
-| Base URL | `http://<internal-host>/v1` | 同上；`valuation/config.py` 的 `MODEL_URL` 默认值 |
+| Base URL | `http://<internal-host>/v1`（已脱敏） | 同上；`valuation/config.py` 的 `MODEL_URL` 默认值 |
 | 模型 | `swift-1.5` | 同上 |
 | 上下文上限 | 262,144 tokens | `config.json` 的 `limit.context` |
 | 单次最大输出 | 16,384 tokens | `config.json` 的 `limit.output` / `max_tokens` |

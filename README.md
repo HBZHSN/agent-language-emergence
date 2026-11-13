@@ -148,6 +148,7 @@ python -m analysis.privacy_check --all  # 产品名/代码/凭据扫描
 
 - 原始数据来自一套内部生产系统，**不公开**；公开仓库只包含脱敏聚合、图表、论文与代码。
 - 产品名、基金代码、产品路径与产品-specific 财务值不进入公开聚合；产品统一为 `Product NNN` / `PNNN`。
+- 机构名与解析模块名统一为 `module_NN`（变体 `module_NNx`）；原始映射只存于不公开的 `data/private/`。
 - 案例引用只保留 `message_id`、`session_id`、UTC 时间、Agent 角色与脱敏片段。
 - 全库只有 1 条人类消息，不涉及人类受试者、访谈或实验。
 - 源数据只读；所有 SQLite 连接使用 `mode=ro`。

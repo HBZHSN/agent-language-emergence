@@ -34,6 +34,7 @@ MODULES = [
     "analysis.outcomes",
     "analysis.human_input",
     "analysis.robustness",
+    "analysis.sanitize_public",
     "analysis.manifest",
     "analysis.tables",
     "analysis.figures",

@@ -139,16 +139,17 @@ con = sqlite3.connect('file:C:/path/to/valuation/data/valuation.db?mode=ro', uri
 - API key、`.env` 内容、`MODEL_API_KEY`、OpenCode password、数据库凭据、token、cookie。
 - 产品名称、产品全称、基金代码、产品代码、产品路径、产品目录名、产品-specific 的净值/份额/金额/持仓/日期范围。
 - 原始估值表快照路径、`data/jobs/<id>` 中的产品文件名、`data/results` 中的产品字段。
+- 机构名、解析模块名/模块缩写（如 `jobs.module` 中的客户/机构标识）。
 - 任何可以直接或间接识别产品/客户/机构的组合信息（例如“代码 + 日期 + 净值”）。
 
 **脱敏规则：**
 
-1. 产品统一用 `Product 001`、`Product 002`… 或 `P001`… 表示；映射表只放在 `data/private/`（gitignore），不提交。
+1. 产品统一用 `Product 001`、`Product 002`… 或 `P001`… 表示；机构/解析模块统一用 `module_01`、`module_02`… 表示；映射表只放在 `data/private/`（gitignore），不提交。
 2. 论文中的案例引用只保留 `message_id`、`session_id`、UTC 时间、Agent 角色、脱敏后的产品标签；不要引用含产品名/代码的原文长句；必要时用 `[产品名]`、`[代码]` 替换。
-3. 聚合表在生成时就脱敏：`data/aggregates/` 只允许 `product_id` + `product_label`，不得含 `name`、`code`、`path`。完整版写入 `data/private/`（gitignore）。
+3. 聚合表在生成时就脱敏：`data/aggregates/` 只允许 `product_id` + `product_label`，不得含 `name`、`code`、`path`；`module` 列只允许 `module_NN`。完整版写入 `data/private/`（gitignore）。
 4. 提交前必须运行 `python -m analysis.privacy_check`；有命中就修复，不得用 `--no-verify` 绕过。
 5. 如果发现历史提交含敏感信息，立即停止后续提交，重写历史（`git filter-repo`）并在 `docs/log.md` 记录；不要只在新提交里删除。
-6. 论文/图表/附录生成脚本不得从 `data/private/` 读取产品名；只读脱敏后的 `data/aggregates/`。
+6. 论文/图表/附录生成脚本不得从 `data/private/` 读取产品名或模块名；只读脱敏后的 `data/aggregates/`。`analysis/sanitize_public.py` 在 `run_all` 中位于 `tables`/`figures` 之前，负责把模块名替换为 `module_NN`。
 
 **判断标准：** 一个外部读者能否仅凭提交内容定位到具体产品、客户或机构？能，就是敏感；不能，才可提交。不确定时按敏感处理。
 

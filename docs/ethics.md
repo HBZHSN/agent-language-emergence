@@ -13,7 +13,8 @@
 ## 3. 隐私与脱敏
 
 - 公开聚合不含产品名称、基金代码、产品路径、产品-specific 财务值或原始快照路径。
-- 产品统一为 `Product NNN`；代码统一为 `PNNN`。
+- 产品统一为 `Product NNN`；代码统一为 `PNNN`；机构/解析模块统一为 `module_NN`（变体 `module_NNx`）。
+- 原始模块名与产品映射只保存在 `data/private/`（gitignore），公开文件不包含它们。
 - 案例引用只保留 `message_id`、`session_id`、UTC 时间、Agent 角色和脱敏后的片段；不引用含产品名/代码的原文长句。
 - `data/private/` 保存完整映射，已在 `.gitignore` 中排除；不提交、不公开。
 - 仓库文件内容不包含 `.env`、API key、OpenCode password、数据库凭据、cookie 或个人邮箱；git 提交元数据中的作者邮箱由作者保留。

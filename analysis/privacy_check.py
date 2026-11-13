@@ -62,6 +62,26 @@ def load_products() -> tuple[list[str], list[str]]:
     return names, codes
 
 
+def load_module_tokens() -> list[str]:
+    """Institution/module tokens derived from jobs.module (never hard-coded)."""
+    try:
+        con = config.connect_valuation()
+        rows = con.execute(
+            "select distinct module from jobs where module is not null and trim(module) != ''"
+        ).fetchall()
+    except Exception:
+        return []
+    tokens: set[str] = set()
+    for row in rows:
+        module = str(row[0]).strip()
+        base = module.split("_valuation_sheet")[0]
+        for token in base.split("_"):
+            token = token.strip().lower()
+            if len(token) >= 3:
+                tokens.add(token)
+    return sorted(tokens, key=len, reverse=True)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--staged", action="store_true")
@@ -70,6 +90,10 @@ def main() -> int:
 
     names, codes = load_products()
     code_res = [(c, re.compile(r"(?<![A-Za-z0-9])" + re.escape(c) + r"(?![A-Za-z0-9])")) for c in codes]
+    module_res = [
+        (t, re.compile(r"(?i)(?<![A-Za-z0-9])" + re.escape(t) + r"[0-9a-z_]*(?![A-Za-z0-9])"))
+        for t in load_module_tokens()
+    ]
 
     violations: list[str] = []
     for rel in git_files(args.staged, args.all):
@@ -97,6 +121,12 @@ def main() -> int:
                 line = text.count("\n", 0, m.start()) + 1
                 masked = code[:2] + "***"
                 violations.append(f"{rel}:{line}: product_code({masked})")
+
+        for token, pattern in module_res:
+            for m in pattern.finditer(text):
+                line = text.count("\n", 0, m.start()) + 1
+                masked = token[:2] + "***"
+                violations.append(f"{rel}:{line}: module_name({masked})")
 
     if violations:
         print("PRIVACY CHECK FAILED:")

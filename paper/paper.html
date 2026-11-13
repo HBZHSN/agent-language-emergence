@@ -803,7 +803,7 @@ a { color: #1a4f8b; text-decoration: none; }
 <p><figure><img src="figures/fig05_adoption.png" alt="图 5 代表性词汇的跨 Agent 采用曲线"><figcaption>图 5 代表性词汇的跨 Agent 采用曲线</figcaption></figure></p>
 <p><strong>解释</strong>。这组结果支持“共同建构”而不是“主 Agent 单向下发”。主 Agent 是最大的造词/广播源（39 个 main-first），但子 Agent 也是重要的创新源（28 个 child-first），尤其在高风险的核验与修复语境中。<code>收口</code>、<code>对账</code>、<code>逐字</code> 这些词先在子 Agent 的报告里出现，说明一线执行者在证据压力下先发明了说法，主 Agent 随后把它们吸收进调度语言。这与“语言是社区实践的一部分”的 sociolinguistic 观点一致：词不是从中心设计出来的，而是在共同实践中被磨出来的。</p>
 <h3 id="h31">5.2 RQ2：梯度式角色方言</h3>
-<p>表 5 给出四个 Agent 的对数几率特征词。主 Agent 的特征词是 <code>启用</code>、<code>用户</code>、<code>回合</code>、<code>核验</code>、<code>方案</code>、<code>派工</code>、<code>changed</code>、<code>deferred</code>——典型的调度/裁决语域；解析 Agent 是 <code>trial</code>、<code>模块</code>、<code>签名</code>、<code>parsers</code>、<code>产品</code>、<code>module_02</code>、<code>逐字</code>、<code>job</code>——实现/测量语域；核验 Agent 是 <code>validate</code>、<code>独立</code>、<code>na</code>、<code>review</code>、<code>reject</code>、<code>留证</code>、<code>停禁</code>、<code>在卷</code>——审计/对抗语域；Watchdog 是 <code>核对</code>、<code>reviewer</code>、<code>seq</code>、<code>是否</code>、<code>json</code>、<code>agent</code>、<code>session</code>、<code>watchdog</code>——协议/取证语域。</p>
+<p>表 5 给出四个 Agent 的对数几率特征词。主 Agent 的特征词是 <code>启用</code>、<code>用户</code>、<code>回合</code>、<code>核验</code>、<code>方案</code>、<code>派工</code>、<code>changed</code>、<code>deferred</code>——典型的调度/裁决语域；解析 Agent 是 <code>trial</code>、<code>模块</code>、<code>签名</code>、<code>parsers</code>、<code>产品</code>、<code>module_02</code>、<code>逐字</code>、<code>before</code>——实现/测量语域；核验 Agent 是 <code>validate</code>、<code>独立</code>、<code>na</code>、<code>review</code>、<code>reject</code>、<code>留证</code>、<code>停禁</code>、<code>在卷</code>——审计/对抗语域；Watchdog 是 <code>核对</code>、<code>reviewer</code>、<code>seq</code>、<code>是否</code>、<code>json</code>、<code>agent</code>、<code>session</code>、<code>watchdog</code>——协议/取证语域。</p>
 <p>表 5　角色方言的 top 特征词（对数几率比，informative Dirichlet prior；完整表见 <code>e3_dialect_terms.csv</code>）。</p>
 <table>
 <thead>
@@ -821,7 +821,7 @@ a { color: #1a4f8b; text-decoration: none; }
 </tr>
 <tr>
 <td>parser</td>
-<td>trial、模块、签名、parsers、产品、module_02、逐字、job</td>
+<td>trial、模块、签名、parsers、产品、module_02、逐字、before</td>
 <td style="text-align:right">37.9</td>
 </tr>
 <tr>
@@ -836,6 +836,9 @@ a { color: #1a4f8b; text-decoration: none; }
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p>注：为保护机构与产品隐私，解析模块名在公开论文与聚合中统一匿名为 <code>module_NN</code>；<code>module_02</code> 是其中一个模块标签，不对应任何公开可识别的机构。原始映射只保存在不公开的 <code>data/private/</code>。</p>
+</blockquote>
 <p>图 6 用热图展示这些词在四个 Agent 中的 z 值。红色表示该 Agent 显著更常用，蓝色表示显著更少用。可以看到清晰的块状结构：<code>trial</code> 在 parser 中高、在 reviewer 中低；<code>validate</code> 在 reviewer 中高、在 parser 中低；<code>json</code>/<code>seq</code>/<code>是否</code> 在 watchdog 中高；<code>启用</code>/<code>用户</code>/<code>回合</code> 在 main 中高。这不是“四个完全不同的语言”，而是“同一套业务词汇在不同角色上的不同权重”。</p>
 <p><figure><img src="figures/fig06_dialect.png" alt="图 6 角色方言的关键词"><figcaption>图 6 角色方言的关键词</figcaption></figure></p>
 <p><strong>分类器</strong>。用 TF-IDF（词 1–2 gram）+ 逻辑回归，按 session 分组 5 折交叉验证，n=11,839 条话语。总体 accuracy=0.725，macro-F1=0.653，weighted-F1=0.718。分角色看：</p>

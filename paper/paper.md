@@ -398,16 +398,18 @@ LLM Agent 的生产研究往往关注延迟、成本、成功率和安全。本�
 
 ### 5.2 RQ2：梯度式角色方言
 
-表 5 给出四个 Agent 的对数几率特征词。主 Agent 的特征词是 `启用`、`用户`、`回合`、`核验`、`方案`、`派工`、`changed`、`deferred`——典型的调度/裁决语域；解析 Agent 是 `trial`、`模块`、`签名`、`parsers`、`产品`、`module_02`、`逐字`、`job`——实现/测量语域；核验 Agent 是 `validate`、`独立`、`na`、`review`、`reject`、`留证`、`停禁`、`在卷`——审计/对抗语域；Watchdog 是 `核对`、`reviewer`、`seq`、`是否`、`json`、`agent`、`session`、`watchdog`——协议/取证语域。
+表 5 给出四个 Agent 的对数几率特征词。主 Agent 的特征词是 `启用`、`用户`、`回合`、`核验`、`方案`、`派工`、`changed`、`deferred`——典型的调度/裁决语域；解析 Agent 是 `trial`、`模块`、`签名`、`parsers`、`产品`、`module_02`、`逐字`、`before`——实现/测量语域；核验 Agent 是 `validate`、`独立`、`na`、`review`、`reject`、`留证`、`停禁`、`在卷`——审计/对抗语域；Watchdog 是 `核对`、`reviewer`、`seq`、`是否`、`json`、`agent`、`session`、`watchdog`——协议/取证语域。
 
 表 5　角色方言的 top 特征词（对数几率比，informative Dirichlet prior；完整表见 `e3_dialect_terms.csv`）。
 
 | Agent | 特征词（按 z 排序） | 最大 z |
 | --- | --- | ---: |
 | main | 启用、用户、回合、核验、方案、派工、changed、deferred | 46.5 |
-| parser | trial、模块、签名、parsers、产品、module_02、逐字、job | 37.9 |
+| parser | trial、模块、签名、parsers、产品、module_02、逐字、before | 37.9 |
 | reviewer | validate、独立、na、review、reject、留证、停禁、在卷 | 30.6 |
 | watchdog | 核对、reviewer、seq、是否、json、agent、session、watchdog | 50.3 |
+
+> 注：为保护机构与产品隐私，解析模块名在公开论文与聚合中统一匿名为 `module_NN`；`module_02` 是其中一个模块标签，不对应任何公开可识别的机构。原始映射只保存在不公开的 `data/private/`。
 
 
 图 6 用热图展示这些词在四个 Agent 中的 z 值。红色表示该 Agent 显著更常用，蓝色表示显著更少用。可以看到清晰的块状结构：`trial` 在 parser 中高、在 reviewer 中低；`validate` 在 reviewer 中高、在 parser 中低；`json`/`seq`/`是否` 在 watchdog 中高；`启用`/`用户`/`回合` 在 main 中高。这不是“四个完全不同的语言”，而是“同一套业务词汇在不同角色上的不同权重”。

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13T09:12:00.332478+00:00",
+  "generated_at": "2026-11-13T09:31:52.902899+00:00",
   "counts": {
     "sessions": 2202,
     "messages": 110413,
@@ -113,8 +113,8 @@
     },
     {
       "path": "data\\aggregates\\b2_binding_summary.csv",
-      "sha256": "01f3cd1e1f8eccd6e90928f88c4d2d1fd8d67936a25fdde17dda3e63555b8ff6",
-      "bytes": 610
+      "sha256": "852546216d1d8309cc0c7d0e93a4c496e4a1f461e219248bc6ab80b6016aa784",
+      "bytes": 394
     },
     {
       "path": "data\\aggregates\\b2_daily.csv",
@@ -168,8 +168,8 @@
     },
     {
       "path": "data\\aggregates\\c6_outcomes.csv",
-      "sha256": "c447bf7ae1de6cd46d9c07ad111c249394b079d49cf0602273004265e455652e",
-      "bytes": 12189
+      "sha256": "b6ea4ea292f39ca160046c578f693378fa3531677f7e9a0b0ee239577b286556",
+      "bytes": 9895
     },
     {
       "path": "data\\aggregates\\c7_seed_terms.csv",
@@ -243,18 +243,18 @@
     },
     {
       "path": "data\\aggregates\\e3_classifier_all.json",
-      "sha256": "c3955b471c057ffe8b04786a1d7bcc8e001667365c8295830fb1d277e66bf98d",
-      "bytes": 10124
+      "sha256": "5113e98b1be0d905972b509be4b768c57e1147406ab49295ef430650a903ab23",
+      "bytes": 10133
     },
     {
       "path": "data\\aggregates\\e3_classifier_nowd.json",
-      "sha256": "d4d4ed307b2a104b96ebf86cc31176b34cfb857a764cb31f235255b5d0979aa1",
-      "bytes": 7736
+      "sha256": "a3c3c40116d5c5a7325cc2a5d4dced70aff800e81b42cdbce4e50fd7241393c0",
+      "bytes": 7744
     },
     {
       "path": "data\\aggregates\\e3_classifier_own.json",
-      "sha256": "7ed10f480e48946560504b354b9d279cd90a25505aca8e2f71eeb0f9b48765ad",
-      "bytes": 10053
+      "sha256": "32cacaf5cb5d5d07352f178b40f8f02a43c7f68dc5ab8e12c27117c90d6255d5",
+      "bytes": 10062
     },
     {
       "path": "data\\aggregates\\e3_confusion_all.csv",
@@ -273,8 +273,8 @@
     },
     {
       "path": "data\\aggregates\\e3_dialect_terms.csv",
-      "sha256": "2d700d5730ac6b11afbf57f808874746b5acb08cd29f119aff624c984ba57b75",
-      "bytes": 1086426
+      "sha256": "a5e29b24af454d89da85f8bb5518b57499f3089957979dce6fccd5b50179b28d",
+      "bytes": 1086502
     },
     {
       "path": "data\\aggregates\\e3_style.csv",
@@ -443,8 +443,8 @@
     },
     {
       "path": "data\\aggregates\\e9_job_features.csv",
-      "sha256": "6518ac2701e403d7bb8e578d17f3e9e073cecaa408475ed2bad889d034f32355",
-      "bytes": 49505
+      "sha256": "bbf7519bd1e0f19c5963d307ed99be18e2c20b79fd7768b302cac8ee28612bcb",
+      "bytes": 47236
     },
     {
       "path": "data\\aggregates\\e9_summary.json",
@@ -455,11 +455,16 @@
       "path": "data\\aggregates\\g2_number_audit.csv",
       "sha256": "c75aae7eec9db02d2b512831459a7119c159d4371dc09bb5e0fdc4ec87192051",
       "bytes": 1201
+    },
+    {
+      "path": "data\\aggregates\\sanitization_report.json",
+      "sha256": "b0569698264b44f2141729c2d147fc435963359989b7c96a9bdc39be5f5757e3",
+      "bytes": 242
     }
   ],
   "paper_pdf": {
-    "sha256": "90fe03d00e00c3b201d3273e0afe6386e4508da25fa29b8e7801f8610278c150",
-    "bytes": 3736278,
+    "sha256": "8fbd0a6a2d65de4b1c515093743f51627307d6e8eda3e7f0e0ac255485963ee0",
+    "bytes": 3739745,
     "pages": 56
   }
 }

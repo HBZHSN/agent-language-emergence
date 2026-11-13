@@ -1,0 +1,15 @@
+{
+  "status": "ok",
+  "labels": [
+    "module_01",
+    "module_02",
+    "module_03",
+    "module_04",
+    "module_05",
+    "module_05x"
+  ],
+  "modules": 6,
+  "module_cells": 0,
+  "dialect_terms": 28,
+  "classifier_terms": 0
+}

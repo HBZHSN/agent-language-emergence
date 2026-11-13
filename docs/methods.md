@@ -119,5 +119,7 @@
 
 - 主会话 48.7% token 无消息级记录；早主 Agent 语言通过派工保留。
 - 源库产品名/代码不进入公开聚合。
+- `jobs.module` 中的机构/解析模块名不进入公开聚合：`analysis/sanitize_public.py` 将其替换为 `module_NN`（变体 `module_NNx`），映射只写 `data/private/module_map.csv`（gitignore）。分类器与对数几率比在内部原始文本上估计；公开时只重命名特征，不改变指标。
+- `analysis/privacy_check.py` 除产品名/代码外，也会拒绝未脱敏的模块/机构缩写。
 - `cost=0` 是未配置价格，不是真实免费。
 - 结果数量不等于财务正确性。

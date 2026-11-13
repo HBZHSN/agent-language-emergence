@@ -148,6 +148,7 @@ Full definitions and thresholds are in [`docs/methods.md`](docs/methods.md).
 
 - The raw data come from an internal production system and are **not public**. The repository contains only anonymized aggregates, figures, the paper, and code.
 - Product names, fund codes, product paths, and product-specific financial values never enter public aggregates; products are `Product NNN` / `PNNN`.
+- Institution and parser-module names are replaced by `module_NN` (variants `module_NNx`); the raw mapping stays in the non-public `data/private/`.
 - Case citations retain only `message_id`, `session_id`, UTC timestamp, agent role, and anonymized excerpts.
 - The corpus contains exactly one human message; there are no human subjects, interviews, or experiments.
 - Source data are read-only; every SQLite connection uses `mode=ro`.

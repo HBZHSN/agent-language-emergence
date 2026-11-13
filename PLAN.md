@@ -62,12 +62,12 @@
   - `docs/data_dictionary.md` 列出 opencode.db / valuation.db 的关键表、字段、行数口径。
   - 验收：文档中的表名、字段名与真实 schema 一致。
 
-- [ ] **A4. 建立只读访问层**
+- [x] **A4. 建立只读访问层**
   - `analysis/config.py` 统一管理源路径、派生路径、时间窗口、Agent 名单、官方工具名单。
   - 所有 SQLite 连接使用 `file:...?mode=ro&immutable=1`（或 `mode=ro`），禁止写源库。
   - 验收：连接测试通过；对源库执行写操作会失败。
 
-- [ ] **A5. 建立日志与提交规范**
+- [x] **A5. 建立日志与提交规范**
   - `docs/log.md` 记录每项任务的时间、命令、关键数字、commit hash。
   - 约定 commit message：`plan: A1 ...`、`exp: E2 ...`、`paper: ...`。
   - 验收：首次提交包含 PLAN/AGENTS/README/.gitignore。

@@ -405,7 +405,7 @@ G1 → G2 → G3 → G4
   - `analysis/config.py` 改用 `VALUATION_SRC` 环境变量；`audit.py` / `manifest.py` 输出占位路径，重跑后不得再写入真实路径。
   - 验收：工作区与完整历史中 0 个源路径标识；`run_all --check`、`privacy_check --all` 通过。
 
-- [ ] **R2. 双语 README 与公开伦理说明**
+- [x] **R2. 双语 README 与公开伦理说明**
   - `README.md`（中文，默认）与 `README.en.md`（英文），含研究问题、数据规模、主要发现、目录、论文入口、复现、隐私/伦理、引用。
   - 更新 `docs/ethics.md` 为公开口径。
   - 验收：两个 README 信息一致；无敏感信息。

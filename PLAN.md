@@ -84,34 +84,34 @@
 
 ## 2. 阶段 B：现场审计与环境重建
 
-- [ ] **B1. 审计 opencode.db 的表结构与规模**
+- [x] **B1. 审计 opencode.db 的表结构与规模**
   - 统计 `session_v2`、`session_message`、`event`、`instruction_*` 等表的行数、时间范围、agent 分布、model 分布。
   - 口径：会话数、消息数、assistant/user/synthetic/idle/compaction 数、工具调用数、文本片段数。
   - 验收：生成 `data/aggregates/b1_opencode_inventory.csv` 与一段可引用摘要。
 
-- [ ] **B2. 审计 valuation.db 的业务规模**
+- [x] **B2. 审计 valuation.db 的业务规模**
   - 统计 products、sources、jobs、job_samples、releases、bindings、results、account_lines、holdings、cash_balances、fee_balances、watchdog_events 的行数与状态分布。
   - 统计每个产品的结果数、文件数、绑定数、失败数；按日统计 job/result 增量。
   - 验收：生成 `data/aggregates/b2_valuation_inventory.csv`；与 README 中的业务描述交叉核对。
 
-- [ ] **B3. 审计文件系统证据**
+- [x] **B3. 审计文件系统证据**
   - 统计 `data/snapshots/`、`data/jobs/`、`data/results/`、`data/diagnostics/`、`data/harness-watch/` 的文件数、总大小、时间范围。
   - 抽样检查 job 目录结构（workspace、outputs、self_check.json、review-*.json、last_failure.json）。
   - 验收：生成 `data/aggregates/b3_filesystem_inventory.csv`；列出可用的证据类型。
 
-- [ ] **B4. 重建系统架构与运行环境**
+- [x] **B4. 重建系统架构与运行环境**
   - 从 `data/opencode/config.json` 提取 provider/model/上下文/输出上限/thinking 设置。
   - 从 `valuation/opencode/*.md` 提取四个 Agent 的系统提示词与角色边界。
   - 从 `valuation/opencode/index.js` 提取官方工具名单、权限矩阵、shell 沙箱约束。
   - 从 `start.ps1`、`app.py`、`valuation/config.py` 提取端口、路径、并发、扫描时间等。
   - 验收：`docs/environment.md` 完整、无猜测；每个事实标注来源文件与行号。
 
-- [ ] **B5. 重建事件时间线**
+- [x] **B5. 重建事件时间线**
   - 以 UTC 为准，按小时统计：会话启动、消息量、工具调用、job 状态变化、results 写入、watchdog 事件、token 消耗。
   - 标注关键事件：首次 job、首次 trial/validate/activate、首次失败、首次 `valution`、首次出现候选行话、Watchdog 首次 `main/human` 判决、最后一个 job。
   - 验收：`data/aggregates/b5_timeline_hourly.csv` + `docs/timeline.md`；时间线与 job 表、session 表可对上。
 
-- [ ] **B6. 数据质量审计**
+- [x] **B6. 数据质量审计**
   - 检查重复消息、空消息、编码异常、会话与 job 的映射缺口、token 口径（累计输入 vs 唯一输入）、时区。
   - 明确“10B 调用记录”的准确含义：9,643,030,091 input tokens（约 96.4 亿，口语称 10B），32,736,566 output tokens。
   - 验收：`docs/data_quality.md` 列出已知问题与处理方式；论文中不把累计 token 当作唯一文本量。

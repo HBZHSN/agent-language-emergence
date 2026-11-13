@@ -20,13 +20,14 @@ PROMPT_DIR = SRC / "valuation" / "opencode"
 
 DERIVED = ROOT / "data" / "derived"
 AGGREGATES = ROOT / "data" / "aggregates"
+PRIVATE = ROOT / "data" / "private"
 MANIFEST = ROOT / "data" / "manifest"
 PAPER = ROOT / "paper"
 FIGURES = PAPER / "figures"
 TABLES = PAPER / "tables"
 DOCS = ROOT / "docs"
 
-for _d in (DERIVED, AGGREGATES, MANIFEST, FIGURES, TABLES, DOCS):
+for _d in (DERIVED, AGGREGATES, PRIVATE, MANIFEST, FIGURES, TABLES, DOCS):
     _d.mkdir(parents=True, exist_ok=True)
 
 # The observation window is UTC, matching SQLite ``datetime('now')`` and the

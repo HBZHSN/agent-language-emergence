@@ -7,6 +7,7 @@ __pycache__/
 
 # Data exports (large / reproducible)
 data/derived/
+data/private/
 data/raw/
 *.parquet
 *.jsonl.gz

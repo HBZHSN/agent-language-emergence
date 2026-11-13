@@ -1,0 +1,29 @@
+{
+  "table_counts": {
+    "products": 123,
+    "sources": 43870,
+    "jobs": 154,
+    "job_samples": 3080,
+    "releases": 19,
+    "bindings": 720,
+    "results": 43829,
+    "account_lines": 15860739,
+    "holdings": 9412714,
+    "cash_balances": 278415,
+    "fee_balances": 327160,
+    "watchdog_events": 7017
+  },
+  "jobs_status": {
+    "active": 149,
+    "failed": 4,
+    "deferred": 1
+  },
+  "results_status": {
+    "active": 43632,
+    "conflict": 197
+  },
+  "products": 123,
+  "bindings_active": 720,
+  "releases": 19,
+  "results": 43829
+}

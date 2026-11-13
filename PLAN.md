@@ -72,6 +72,14 @@
   - 约定 commit message：`plan: A1 ...`、`exp: E2 ...`、`paper: ...`。
   - 验收：首次提交包含 PLAN/AGENTS/README/.gitignore。
 
+- [ ] **A6. 敏感信息治理与脱敏流水线**
+  - 在 AGENTS.md 写死规则：API key、`.env`、密码、产品名、基金代码、产品路径、产品-specific 财务值不得进入 git。
+  - 产品统一映射为 `Product NNN` / `PNNN`；完整映射只写 `data/private/`（gitignore）。
+  - 实现 `analysis/privacy_check.py`：扫描 `git ls-files`，对源库产品名/代码、密钥模式、`.env` 模式做命中检查；有命中即失败。
+  - 实现 `.githooks/pre-commit` 并 `git config core.hooksPath .githooks`。
+  - 审计历史提交；如含敏感信息，用 `git filter-repo` 重写历史并记录。
+  - 验收：`python analysis/privacy_check.py` 对当前树通过；`git log -p` 不含产品名/代码/密钥。
+
 ---
 
 ## 2. 阶段 B：现场审计与环境重建

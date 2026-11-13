@@ -49,8 +49,17 @@ python analysis\run_all.py
 # 只校验 manifest 与关键数字
 python analysis\run_all.py --check
 
+# 提交前敏感信息检查（必须通过）
+python -m analysis.privacy_check
+
 # 生成论文 HTML/PDF（计划中的 F5）
 python analysis\build_paper.py
+```
+
+建议启用仓库内 pre-commit hook（只影响本仓库）：
+
+```powershell
+git config core.hooksPath .githooks
 ```
 
 > 具体脚本名以实际实现为准；实现后同步更新本节。
@@ -118,6 +127,26 @@ con = sqlite3.connect('file:C:/path/to/valuation/data/valuation.db?mode=ro', uri
 - 多重比较使用 Benjamini–Hochberg FDR；论文中报告校正后的 q 值或明确说明。
 - 零模型/置换检验只用于推断，不作为“实验数据”。
 
+### 4.5 敏感信息与脱敏（强制）
+
+**凡是进入 git 的内容，一律按“可能被公开”处理。** 以下信息不得出现在提交、论文、图表、聚合表、日志、commit message 中：
+
+- API key、`.env` 内容、`MODEL_API_KEY`、OpenCode password、数据库凭据、token、cookie。
+- 产品名称、产品全称、基金代码、产品代码、产品路径、产品目录名、产品-specific 的净值/份额/金额/持仓/日期范围。
+- 原始估值表快照路径、`data/jobs/<id>` 中的产品文件名、`data/results` 中的产品字段。
+- 任何可以直接或间接识别产品/客户/机构的组合信息（例如“代码 + 日期 + 净值”）。
+
+**脱敏规则：**
+
+1. 产品统一用 `Product 001`、`Product 002`… 或 `P001`… 表示；映射表只放在 `data/private/`（gitignore），不提交。
+2. 论文中的案例引用只保留 `message_id`、`session_id`、UTC 时间、Agent 角色、脱敏后的产品标签；不要引用含产品名/代码的原文长句；必要时用 `[产品名]`、`[代码]` 替换。
+3. 聚合表在生成时就脱敏：`data/aggregates/` 只允许 `product_id` + `product_label`，不得含 `name`、`code`、`path`。完整版写入 `data/private/`（gitignore）。
+4. 提交前必须运行 `python -m analysis.privacy_check`；有命中就修复，不得用 `--no-verify` 绕过。
+5. 如果发现历史提交含敏感信息，立即停止后续提交，重写历史（`git filter-repo`）并在 `docs/log.md` 记录；不要只在新提交里删除。
+6. 论文/图表/附录生成脚本不得从 `data/private/` 读取产品名；只读脱敏后的 `data/aggregates/`。
+
+**判断标准：** 一个外部读者能否仅凭提交内容定位到具体产品、客户或机构？能，就是敏感；不能，才可提交。不确定时按敏感处理。
+
 ## 5. 论文写作规范
 
 - 语言：中文；术语首次出现给英文原文（如“操作性混合语（operational pidgin）”）。
@@ -125,7 +154,7 @@ con = sqlite3.connect('file:C:/path/to/valuation/data/valuation.db?mode=ro', uri
 - 每节开头先回答“这一节要回答哪个 RQ”，不要让读者猜。
 - 图表：图注在图下方，表注在表上方；每张图表在正文中至少被引用一次；数字与 CSV 一致。
 - 参考文献：只引用能核验的文献；正文引用与文献表一一对应；优先 DOI/官方 URL。
-- 不泄露：`.env`、`MODEL_API_KEY`、OpenCode password、数据库凭据、个人邮箱。产品名称在论文中脱敏为“产品 A/B…”或保留基金代码但去掉全称；原始快照路径不写进论文正文。
+- 不泄露：`.env`、`MODEL_API_KEY`、OpenCode password、数据库凭据、个人邮箱。产品名称与基金代码在论文中统一脱敏为 `Product NNN`；不得保留代码、全称、路径或产品-specific 财务值；原始快照路径不写进论文正文。
 
 ## 6. 目录约定
 

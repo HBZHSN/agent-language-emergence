@@ -68,9 +68,9 @@
 | --- | --- |
 | `id` | 产品 ID |
 | `identity` | 稳定标识（目录/来源 + 基金代码） |
-| `name` | 产品全称（论文中脱敏） |
-| `code` | 基金代码（如 P001） |
-| `path` | 共享目录相对路径 |
+| `name` | 产品全称（**不得进入 git**；论文用 `Product NNN`） |
+| `code` | 基金代码（**不得进入 git**；论文用 `PNNN`） |
+| `path` | 共享目录相对路径（**不得进入 git**） |
 | `rule_error/rule_start/rule_end/rule_binding_id` | 当前规则状态 |
 
 ### 2.2 `sources`（43,870 行）
@@ -147,10 +147,18 @@
 | `data/diagnostics/` | 诊断日志 |
 | `data/harness-watch/` | 巡检报告、计划、执行记录 |
 
-## 4. 口径提醒
+## 4. 公开聚合与私有明细
+
+- `data/aggregates/` 只放脱敏聚合：产品用 `product_id` + `Product NNN` 标签，不含 `name/code/path`，不含产品-specific 日期范围或财务值。
+- `data/private/` 放完整产品映射与明细，已被 `.gitignore` 排除；不得提交。
+- `b2_product_summary.csv`（公开）字段：`product_id, product_label, sources, results, bindings, jobs, distinct_dates`。
+- `b2_binding_summary.csv`（公开）只按 `module/status/origin` 聚合，不含产品、签名、日期。
+- `b2_bindings_private.csv`、`b2_product_summary_private.csv`（私有）保留完整字段，仅供本地复核。
+
+## 5. 口径提醒
 
 1. `tokens_input` 是每一步的累计输入量，不是唯一文本 token；9.64B 不能解释为 9.64B 条消息。
 2. `cost` 恒为 0 是 provider 未配置价格，不是真实免费。
 3. `results` 的 `status` 需要先查分布再引用；不要把“有结果”等同于“已人工确认”。
-4. `products.name`、`sources.relative_path` 含产品名称，论文中脱敏。
+4. `products.name`、`products.code`、`sources.relative_path` 含产品身份，**一律不得提交**；论文中脱敏。
 5. 时间统一按 UTC 解释；`datetime('now')` 与 OpenCode 毫秒时间戳都是 UTC。

@@ -9,3 +9,7 @@
 | poisson_jargon_coef | 0.208 |
 | poisson_jargon_p | 0.019 |
 | poisson_r2 | 0.070 |
+| nb_jargon_coef | 0.212 |
+| nb_jargon_p | 0.010 |
+| nb_alpha | 0.287 |
+| nb_alpha_p | 0.000 |

@@ -44,6 +44,14 @@ CAT_COLORS = {
     "repair": "#8172b3",
     "ritual": "#937860",
 }
+CAT_LABELS = {
+    "closure": "收口",
+    "ruling": "裁决",
+    "evidence": "证据",
+    "status": "状态",
+    "repair": "修复",
+    "ritual": "仪式",
+}
 
 
 def save(fig, name: str):
@@ -140,7 +148,7 @@ def fig_lexicon():
     ax.set_xlabel("出现次数（清洗后语料，子串计数）")
     ax.set_title("图 4  高频操作性词汇（按类别着色）")
     ax.grid(axis="x", alpha=0.25)
-    handles = [mpatches.Patch(color=v, label=k) for k, v in CAT_COLORS.items()]
+    handles = [mpatches.Patch(color=v, label=CAT_LABELS.get(k, k)) for k, v in CAT_COLORS.items()]
     ax.legend(handles=handles, loc="lower right", title="类别", fontsize=8)
     save(fig, "fig04_lexicon.png")
 
@@ -217,7 +225,10 @@ def fig_convergence():
 def fig_compression():
     d = pd.read_csv(config.AGGREGATES / "e5_dispatch_features.csv")
     d = d.drop_duplicates(["job_id", "role"]).sort_values("job_order")
-    fig, axes = plt.subplots(1, 2, figsize=(9.5, 3.9))
+    r = pd.read_csv(config.AGGREGATES / "e5_report_features.csv")
+    r["time_utc"] = pd.to_datetime(r["time_utc"], utc=True)
+    r = r.sort_values("time_utc").drop_duplicates(["job_id", "role"]).sort_values("job_order")
+    fig, axes = plt.subplots(1, 3, figsize=(11.5, 3.6))
     for ax, col, label in [
         (axes[0], "jargon_per_1k", "行话密度（每千 token）"),
         (axes[1], "text_len", "派工文本长度（字符）"),
@@ -231,8 +242,18 @@ def fig_compression():
         ax.set_ylabel(label)
         ax.grid(alpha=0.25)
         ax.legend(fontsize=8)
-    axes[0].set_title("(a) 行话密度随 job 顺序上升")
+    axes[0].set_title("(a) 派工行话密度上升")
     axes[1].set_title("(b) 派工长度未显著压缩")
+    for role, color in (("parser", COLORS["parser"]), ("reviewer", COLORS["reviewer"])):
+        sub = r[r.role == role]
+        axes[2].scatter(sub["job_order"], sub["jargon_per_1k"], s=14, alpha=0.35, color=color, label=role)
+        roll = sub.sort_values("job_order")["jargon_per_1k"].rolling(12, min_periods=3).mean()
+        axes[2].plot(sub.sort_values("job_order")["job_order"], roll, color=color, linewidth=2.2)
+    axes[2].set_xlabel("Job 顺序")
+    axes[2].set_ylabel("首份回报行话密度（每千 token）")
+    axes[2].set_title("(c) 回报侧同向强化")
+    axes[2].grid(alpha=0.25)
+    axes[2].legend(fontsize=8)
     fig.suptitle("图 8  通信的“语域强化”而非简单压缩", fontsize=12)
     fig.tight_layout()
     save(fig, "fig08_compression.png")
@@ -244,24 +265,44 @@ def fig_valution():
     v["hour"] = pd.to_datetime(v["hour"], utc=True)
     tok = pd.read_csv(config.AGGREGATES / "e6_valution_hourly_tokens.csv")
     tok["hour"] = pd.to_datetime(tok["hour"], utc=True)
-    fig, ax = plt.subplots(figsize=(9.5, 4.2))
+    on = pd.read_csv(config.AGGREGATES / "e6_burst_onsets.csv")
+    on["onset_utc"] = pd.to_datetime(on["onset_utc"], utc=True)
+    fig, (ax, axb) = plt.subplots(2, 1, figsize=(9.5, 6.6), height_ratios=[1.15, 1])
     ax.bar(v["hour"], v["calls"], width=0.035, color="#c44e52", alpha=0.8, label="valution 调用")
     ax.set_ylabel("每小时调用次数")
     ax2 = ax.twinx()
     ax2.plot(tok["hour"], tok["tokens_input"].cumsum() / 1e6, color="#4c72b0", marker="o", label="累计输入 token")
     ax2.set_ylabel("累计输入 token（百万）")
-    ax.set_title("图 9  `valution` 化石词：9 小时、2,283 次、2.49 亿输入 token")
+    ax.set_title("(a) 每小时调用与累计输入 token（11-06 至 11-10，全部 Agent）")
     h1, l1 = ax.get_legend_handles_labels()
     h2, l2 = ax2.get_legend_handles_labels()
     ax.legend(h1 + h2, l1 + l2, loc="upper left")
     ax.grid(axis="y", alpha=0.25)
+    axb.vlines(on["onset_utc"], 0, on["gap_before_s"], color="#c44e52", linewidth=1.6, alpha=0.8)
+    axb.scatter(on["onset_utc"], on["gap_before_s"], s=16, color="#c44e52", zorder=3)
+    axb.axhline(600, color="#666666", linewidth=0.9, linestyle="--")
+    axb.set_ylim(0, 850)
+    axb.text(on["onset_utc"].max(), 730, "600 秒停顿阈值", fontsize=8, color="#444444", ha="right")
+    axb.set_ylabel("爆发前停顿（秒）")
+    axb.set_title("(b) 主 Agent 的 50 个爆发：49 次重新点火前都有约 10 分钟停顿")
+    axb.text(
+        0.02, 0.99,
+        "停顿 612.5–643.0 秒，合计 8.46 小时（占跨度 93%）\n"
+        "每次停顿后由同一条空闲提醒重新触发（先于首调用中位 1.5 秒）\n"
+        "爆发内调用间隔中位数仅 0.93 秒",
+        transform=axb.transAxes, fontsize=8, va="top",
+        bbox=dict(boxstyle="round,pad=0.4", facecolor="#f7f7f7", edgecolor="#cccccc"),
+    )
+    axb.grid(axis="y", alpha=0.25)
+    fig.suptitle("图 9  `valution` 化石词：存活 4.6 天、2,283 次、2.49 亿输入 token", fontsize=12)
+    fig.tight_layout()
     fig.autofmt_xdate()
     save(fig, "fig09_valution.png")
 
 
 def fig_outcomes():
     d = pd.read_csv(config.AGGREGATES / "e9_job_features.csv")
-    d = d[d.dispatch_jargon_per_1k > 0].copy()
+    d = d[d.dispatch_tokens > 0].copy()
     fig, ax = plt.subplots(figsize=(8, 4.5))
     colors = ["#c44e52" if x else "#4c72b0" for x in d["failed"]]
     ax.scatter(d["dispatch_jargon_per_1k"], d["rounds"] + 1, c=colors, s=28, alpha=0.75)
@@ -269,9 +310,9 @@ def fig_outcomes():
     ax.set_xlabel("首次派工的行话密度（每千 token）")
     ax.set_ylabel("job 轮次 + 1（对数）")
     rho, p = spearmanr(d["dispatch_jargon_per_1k"], d["rounds"])
-    ax.set_title(f"图 10  行话密度与 job 轮次（Spearman ρ={rho:.2f}, p={p:.1e}）")
+    ax.set_title(f"图 12  行话密度与 job 轮次（有派工 n={len(d)}；ρ={rho:.2f}, p={p:.3f}）")
     ax.grid(alpha=0.25)
-    save(fig, "fig10_outcomes.png")
+    save(fig, "fig12_outcomes.png")
 
 
 def fig_protocol():
@@ -291,9 +332,9 @@ def fig_protocol():
     axes[1].set_xlabel("规范 key 集合完全匹配率（%）")
     axes[1].set_title("(b) 工具输入图式")
     axes[1].grid(axis="x", alpha=0.25)
-    fig.suptitle("图 11  协议与图式的标准化", fontsize=12)
+    fig.suptitle("图 10  协议与图式的标准化", fontsize=12)
     fig.tight_layout()
-    save(fig, "fig11_protocol.png")
+    save(fig, "fig10_protocol.png")
 
 
 def fig_events():
@@ -309,10 +350,10 @@ def fig_events():
     h1, l1 = ax.get_legend_handles_labels()
     h2, l2 = ax2.get_legend_handles_labels()
     ax.legend(h1 + h2, l1 + l2, loc="upper left", fontsize=8)
-    ax.set_title("图 12  新词首现、Watchdog 升级与 trial 失败的时间对齐")
+    ax.set_title("图 11  新词首现、Watchdog 升级与 trial 失败的时间对齐")
     ax.grid(axis="y", alpha=0.25)
     fig.autofmt_xdate()
-    save(fig, "fig12_events.png")
+    save(fig, "fig11_events.png")
 
 
 def main():
@@ -325,9 +366,9 @@ def main():
     fig_convergence()
     fig_compression()
     fig_valution()
-    fig_outcomes()
     fig_protocol()
     fig_events()
+    fig_outcomes()
 
 
 if __name__ == "__main__":

@@ -21,6 +21,18 @@ def md(df: pd.DataFrame, path: str, floatfmt: str = "{:.3f}") -> None:
     df.to_csv(config.TABLES / path.replace(".md", ".csv"), index=False, encoding="utf-8-sig")
 
 
+def bh(pvals: list[float]) -> list[float]:
+    m = len(pvals)
+    order = sorted(range(m), key=lambda i: pvals[i])
+    q = [0.0] * m
+    prev = 1.0
+    for rank in range(m, 0, -1):
+        i = order[rank - 1]
+        prev = min(prev, pvals[i] * m / rank)
+        q[i] = min(1.0, prev)
+    return q
+
+
 def main():
     # Table 1: agents
     a = pd.read_csv(config.AGGREGATES / "b1_agent_summary.csv")
@@ -76,8 +88,12 @@ def main():
     # Table 8: convergence
     t12 = pd.read_csv(config.AGGREGATES / "e4_trends.csv")
     t24 = pd.read_csv(config.AGGREGATES / "e4_trends_24h.csv")
-    t8 = t12[t12.metric == "excess_js"][["pair", "slope_per_day", "ci_low", "ci_high", "p_two_sided"]].merge(
-        t24[t24.metric == "excess_js"][["pair", "slope_per_day", "p_two_sided"]], on="pair", suffixes=("_12h", "_24h")
+    e12 = t12[t12.metric == "excess_js"].copy()
+    e24 = t24[t24.metric == "excess_js"].copy()
+    e12["q_12h"] = bh(e12["p_two_sided"].tolist())
+    e24["q_24h"] = bh(e24["p_two_sided"].tolist())
+    t8 = e12[["pair", "slope_per_day", "ci_low", "ci_high", "p_two_sided", "q_12h"]].merge(
+        e24[["pair", "slope_per_day", "p_two_sided", "q_24h"]], on="pair", suffixes=("_12h", "_24h")
     )
     md(t8, "table08_convergence.md")
 
@@ -118,7 +134,8 @@ def main():
     # Table 12: events
     ev = json.loads((config.AGGREGATES / "e8_summary.json").read_text(encoding="utf-8"))
     corr = pd.DataFrame(ev["correlations"])
-    corr = corr[corr.a == "new_terms"]
+    corr = corr[corr.a == "new_terms"].copy()
+    corr["q_bh"] = bh(corr["p"].tolist())
     md(corr, "table12_events.md")
 
     # Table 13: outcomes
@@ -134,6 +151,10 @@ def main():
             {"metric": "poisson_jargon_coef", "value": oc["regression_rounds"]["coef"].get("dispatch_jargon_per_1k")},
             {"metric": "poisson_jargon_p", "value": oc["regression_rounds"]["p"].get("dispatch_jargon_per_1k")},
             {"metric": "poisson_r2", "value": oc["regression_rounds"].get("pseudo_r2")},
+            {"metric": "nb_jargon_coef", "value": oc["regression_rounds_nb"]["coef"].get("dispatch_jargon_per_1k")},
+            {"metric": "nb_jargon_p", "value": oc["regression_rounds_nb"]["p"].get("dispatch_jargon_per_1k")},
+            {"metric": "nb_alpha", "value": oc["regression_rounds_nb"].get("alpha")},
+            {"metric": "nb_alpha_p", "value": oc["regression_rounds_nb"]["p"].get("alpha")},
         ]
     )
     md(t13, "table13_outcomes.md")

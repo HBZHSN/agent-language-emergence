@@ -9,4 +9,4 @@
 | decision_human | 1.000 |
 | mean_evidence_n | 6.090 |
 | evidence_gt_6 | 105.000 |
-| mean_exact_match | 0.876 |
+| mean_exact_match | 0.873 |

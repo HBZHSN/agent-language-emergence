@@ -48,6 +48,9 @@ def main():
     add("valution_tokens", e6["valution_tokens_input"], 249092664, "e6")
     add("valution_share", e6["valution_token_share_of_day"], 0.2382, "e6")
     add("valution_max_run", e6["main_valution_max_run"], 2271, "e6")
+    add("valution_bursts", e6["main_valution_bursts"], 50, "e6")
+    add("valution_reonsets_triggered", e6["main_valution_reonsets_with_synthetic_trigger"], 49, "e6")
+    add("valution_lifespan_days", e6["valution_lifespan_days"], 4.61, "e6")
     add("verdicts", e7["verdict_attempts"], 1119, "e7")
     add("valid_verdicts", e7["valid_verdicts"], 923, "e7")
     add("valid_rate", e7["valid_rate"], 0.8248, "e7")
@@ -55,7 +58,7 @@ def main():
     add("human_chars", e11["human_chars"], 12, "e11")
     add("jargon_rounds", e9["jargon_rounds_with_dispatch"], 0.253, "e9")
     add("jargon_p", round(e9["jargon_rounds_with_dispatch_p"], 4), 0.0135, "e9")
-    add("pdf_pages", len(PdfReader(str(config.PAPER / "paper.pdf")).pages), 46, "paper.pdf")
+    add("pdf_pages", len(PdfReader(str(config.PAPER / "paper.pdf")).pages), 56, "paper.pdf")
 
     df = pd.DataFrame(checks)
     df.to_csv(config.AGGREGATES / "g2_number_audit.csv", index=False, encoding="utf-8-sig")

@@ -37,7 +37,9 @@ h2 {
   padding-bottom: 2mm;
   border-bottom: 1.2pt solid #333;
   page-break-after: avoid;
+  page-break-before: always;
 }
+h1 + h2 { page-break-before: avoid; }
 h3 { font-size: 13pt; margin-top: 7mm; page-break-after: avoid; }
 h4 { font-size: 11.5pt; }
 p { text-align: justify; text-indent: 2em; margin: 0.55em 0; }
@@ -62,7 +64,9 @@ th, td { border: 0.5pt solid #bbb; padding: 1.2mm 1.5mm; vertical-align: top; }
 th { background: #eeeeee; font-weight: bold; }
 tr:nth-child(even) td { background: #fafafa; }
 img { max-width: 100%; display: block; margin: 3mm auto 2mm auto; page-break-inside: avoid; }
-figure { margin: 4mm 0; page-break-inside: avoid; }
+figure { margin: 4mm 0; page-break-inside: avoid; text-align: center; }
+figcaption { font-size: 9pt; color: #555; margin-top: 1.5mm; text-align: center; }
+p.caption { text-indent: 0; font-size: 9pt; color: #333; margin: 2.5mm 0 1mm 0; }
 code, pre {
   font-family: "Cascadia Mono", "Consolas", monospace;
   font-size: 9pt;
@@ -96,11 +100,24 @@ def add_heading_ids(html: str) -> str:
     return re.sub(r"<h([23])>(.*?)</h\1>", repl, html, flags=re.S)
 
 
+def add_captions(html: str) -> str:
+    import re
+
+    html = re.sub(
+        r'<img src="([^"]+)" alt="([^"]+)"\s*/?>',
+        r'<figure><img src="\1" alt="\2"><figcaption>\2</figcaption></figure>',
+        html,
+    )
+    html = re.sub(r"<p>(表\s?[0-9A-Z]+　[^<]*)</p>", r'<p class="caption">\1</p>', html)
+    return html
+
+
 def build_html() -> Path:
     md_text = (config.PAPER / "paper.md").read_text(encoding="utf-8")
     md = MarkdownIt("commonmark", {"html": False, "linkify": True, "typographer": True}).enable("table")
     body = md.render(md_text)
     body = add_heading_ids(body)
+    body = add_captions(body)
     html = f"""<!doctype html>
 <html lang="zh-CN">
 <head>

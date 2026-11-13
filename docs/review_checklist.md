@@ -1,4 +1,4 @@
-# 内部审稿清单
+# 内部审稿清单（v1.1）
 
 ## 研究问题与论证
 
@@ -19,6 +19,12 @@
 - [x] 收敛 12h/24h 斜率与 p/q 与 CSV 一致。
 - [x] 压缩 ρ 与 CSV 一致；解释了回归符号相反的共线性。
 - [x] 事件/结果关联标注了探索性、样本量与 FDR。
+- [x] v1.1：事件级 Poisson 显著项在负二项下不显著，已降级为假说（5.7）；job 级行话关联通过 NB（0.212, p=0.010）。
+- [x] v1.1：收敛主结果 bootstrap 5,000 次；表 7 含 12h/24h 斜率、CI、p、q；结论限定全量口径 24h 窗。
+- [x] v1.1：本嗓收敛敏感性（main pair 仅 5 窗、不显著）与去 Watchdog 三分类（0.568）、本嗓分类（main F1=0.000）如实报告。
+- [x] v1.1：`valution` 间隔/停顿/外部起搏实测入 `e6_summary.json`（50 爆发、49/49 synthetic 触发、存活 4.61 天）。
+- [x] v1.1：官方工具表对齐部署清单（25+11=36，移除未部署 `verify`）；schema 分类按 key 集合修正。
+- [x] v1.1：词项审读为两个 LLM 实例独立审读+交叉复核（非人类双标注），4.4/8.4 如实披露；冻结涌现标准（≥2 天或 ≥3 job）标记 66/57。
 
 ## 方法
 
@@ -37,21 +43,23 @@
 - [x] 相关工作覆盖涌现通信、LLM 多 Agent、语言收敛/社会方言、工具协议。
 - [x] 每个图表在正文中被引用。
 - [x] 参考文献 40 条，正文引用与文献表对应。
-- [x] 案例引用有 message_id/时间/Agent；产品信息脱敏。
+- [x] 案例引用有 message_id/session_id/时间/Agent；产品信息脱敏。
 - [x] 附录包含数据字典、工具清单、复现、伦理。
+- [x] v1.1：全部 16 张表题在表上方；图 10–12 按首次引用重编号；fig08 增回报面板、fig09 增停顿结构面板。
+- [x] v1.1：摘要/引言重写（96.4 亿口径、四发现与局限）；全文数字与 CSV 对账。
 
 ## 交付
 
-- [x] `paper/paper.md`（约 4.9 万字符）。
+- [x] `paper/paper.md`（约 5.7 万字符）。
 - [x] `paper/paper.html`。
-- [x] `paper/paper.pdf`（46 页）。
+- [x] `paper/paper.pdf`（56 页）。
 - [x] `paper/figures/` 12 幅图。
 - [x] `paper/tables/` 14 张表。
 - [x] `python -m analysis.privacy_check --all` 通过。
-- [x] git 历史完整；最终 tag 待打。
+- [x] git 历史完整；最终 tag `v1.1-paper`。
 
 ## 待办
 
-- [x] `python -m analysis.run_all --check` 最终跑通（G1）。
-- [x] 30 个数字人工对账（G2）。
-- [x] 最终 tag `v1.0-paper`（G4）。
+- [x] `python -m analysis.run_all --check` 最终跑通（G1/H4）。
+- [x] 33 项数字自动对账 + 人工基准表（G2/H4，`analysis/number_audit.py` 0/33 失败）。
+- [x] 最终 tag `v1.1-paper`（H4）。

@@ -57,7 +57,8 @@
 
 1. 候选：词 unigram/bigram/trigram + 中文 2–6 字 n-gram；频次 ≥ 20；≥ 2 个 Agent；≥ 5 个 session。
 2. 过滤：T0/T1 子串命中；纯数字/ID/路径；长度 < 2（除单字行话）。
-3. 人工审定：两位标注者独立看 Top 300，按“是否承担协调功能”二分类；分歧讨论。最终 69 词，分六类：closure、ruling、evidence、status、repair、ritual。
+3. 审读：两个大语言模型实例独立看候选清单（75 条目，去重 73 词），按"是否承担协调功能"二分类，再交叉复核；不是人类双标注，无人类标注者间一致性可报告（论文 4.4/8.4 如实披露）。最终 69 个有命中词项（4 个零命中剔除），分六类：closure、ruling、evidence、status、repair、ritual。
+4. 涌现冻结判据：不在种子文本、重复出现、跨 session、跨 Agent、有协调功能、存活 ≥2 天或 ≥3 job（`meets_persistence` 列）。66 词满足存活判据，其中非种子 57 词；补盲/单刀/跑偏 等不满足者降级为候选/一次性变异。
 
 ## 6. 指标
 
@@ -78,16 +79,20 @@
 - 12 小时或 24 小时窗；每个 voice 的 unigram 分布（全局 Top 4,000 词，add-1 平滑）。
 - JS 距离（base 2）。
 - Null：从两个 voice 的合并分布中，按各自 token 数抽 multinomial 样本，重复 60 次，取 JS 均值；excess = observed − null。
-- 趋势：OLS slope/day；2,000 次窗口 bootstrap 95% CI；BH-FDR 对 6 个 pair。
+- 趋势：OLS slope/day；5,000 次窗口 bootstrap 95% CI；BH-FDR 对 6 个 pair（每个窗口、每个指标族各 6 个检验）。
+- 本嗓敏感性：`AGENT_LANG_MAIN_VOICE=own` 剔除 main 转述的 dispatch/job_summary/job_instruction，只保留 main 自己的 assistant 文本；含 main 的 pair 仅 5 个可用窗口，检验力不足，结论以全量口径为准。
 
 **压缩**：
 - 每个 job/role 的首次派工；字符数、token 数、信息槽位（job_id/scope/samples/evidence/forbid/sequence/verdict/round 的正则命中数）、模板相似度（char 3–5 gram TF-IDF，与同角色前序派工的最大余弦）、行话密度（69 词/千 token）。
+- 回报侧：act==report 且 parser/reviewer；job_id 优先取话语关联，缺失时从 session 标题正则 `job\s+(\d+)` 回退；每 job/role 首份回报；tokens/bullets/headings/行话密度；Spearman 对 job 顺序（`e5_report_features.csv`）。
 - Spearman；带日固定效应 OLS 作为敏感性（job 顺序与日期共线，回归不作为主结论）。
 
 **工具变异**：
-- 官方工具集合 + Levenshtein 距离；按 tool_name 聚合 calls/errors/success rate/first/last/input_keys。
-- `valution` 的 schema 分类：`sql`、`agent`、`job_id`、`product_id`、`empty`。
+- 官方工具集合 = 部署清单 25 个 `valuation_*` 业务工具 + 11 个内置工具 = 36（`config.OFFICIAL_TOOLS`；v1.0 误含未部署的 `verify`，v1.1 移除）；非官方形式按 Levenshtein 距离找最近官方名；按 tool_name 聚合 calls/errors/success rate/first/last/input_keys。
+- `valution` 的 schema 分类按输入 key 集合：`sql`、`subagent`（keys⊆{agent,sessionID}）、`job`、`product`、`empty`（v1.0 把 sessionID-only 误判为 empty，v1.1 修正）。
 - 连续 run：按主 Agent 工具序列，统计连续 `valution` 的长度；条件概率 P(next=valution | prev=valution) vs P(next=valution | prev≠valution)。
+- 间隔/停顿：主 Agent `valution` 序列相邻间隔；>600s 记为停顿，切分爆发；统计停顿数/时长/占比、爆发内间隔（`e6_summary.json`）。
+- 外部起搏：对每个停顿后的重新点火，在同会话内回溯 300s 找最后一条 synthetic 通知，记录 message_id 与时间差（`e6_burst_onsets.csv`）；49/49 次重新点火前都有同一条 192 字符空闲提醒（文本逐字相同，1 个变体）。
 - token 成本：message_id 关联 `messages.parquet` 的 `tokens_input`。
 
 **协议**：
@@ -96,18 +101,18 @@
 
 **事件对齐**：
 - 6 小时窗；新词首现数；trial/validate 错误；Watchdog main 判决；valution 调用；token；job 数。
-- Spearman + Poisson GLM（log token offset）；BH-FDR 对 4 个相关；报告为探索性。
+- Spearman（BH-FDR 对 5 个 new_terms 相关）+ Poisson GLM（log token offset，回归系数 BH q）+ 负二项回归作过度离散对照。v1.1 结果：Poisson 显著项在 NB 下全部不显著（α=1.77，p=0.007），事件级关联降级为假说。
 
 **结果关联**：
 - job 级：派工行话密度、派工 token、trial/validate 调用/错误、Watchdog main、rounds/duration/failed。
-- Spearman；Poisson GLM（active jobs，n=90）控制派工 token；只有 5 个 failed/deferred，不做稳定 logistic。
+- Spearman；Poisson GLM（有派工且 active 的 job，n=90）控制派工 token；负二项对照（α=0.287，p<0.001；行话系数 0.212，p=0.010，仍显著）；只有 5 个 failed/deferred，不做稳定 logistic。
 
 ## 7. 统计
 
-- Seed=42（bootstrap/零模型）。
-- 分类器 GroupKFold(5) by session。
-- Bootstrap 2,000 次（趋势/稳健性）；零模型 60 次/窗。
-- BH-FDR：收敛 6 个 pair；事件 4 个相关；结果 2 个相关。
+- Seed=42（bootstrap）/7（零模型）。
+- 分类器 GroupKFold(5) by session；敏感性：去 Watchdog 三分类、本嗓四分类。
+- Bootstrap 5,000 次（趋势主结果）；零模型 60 次/窗。
+- BH-FDR：收敛每窗 6 个 pair；事件 5 个相关 + 4 个回归系数；结果 2 个主检验用 Bonferroni。
 - 所有 p 值双侧；报告原始 p 与 q（或说明探索性）。
 
 ## 8. 复现边界

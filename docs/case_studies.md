@@ -7,11 +7,12 @@
 - 时间：2026-11-06T13:30:32.152Z
 - Agent：parser（主 Agent 派工）
 - message_id：`msg_1b10dc53a002fOwZUWaPXpOge5`
+- session_id：`ses_e5298ce3bffeD1mDk4ecDHEacR`
 - 原文（节选）：
 
 > “本回合=**单发终局重放，零检测零循环**…… valuation_trial(J) 单发：通过 → 回执…… 即停，交主 agent 转 Reviewer validate。”
 
-- 采纳：2026-11-06T13:30:35.310Z，parser，`msg_1b10dd1a8001yTF3l4lcrVCj4F`：
+- 采纳：2026-11-06T13:30:35.310Z，parser，`msg_1b10dd1a8001yTF3l4lcrVCj4F`（同 session `ses_e5298ce3bffeD1mDk4ecDHEacR`）：
 
 > “## job J 终局单发回执（前置拒，按指令即停）”
 
@@ -22,11 +23,11 @@
 
 ### `收口`
 
-- 首现：2026-11-04T09:58:54.298Z，reviewer，`msg_1a5ff4c55001I6xhFbCMf7rQSN`：
+- 首现：2026-11-04T09:58:54.298Z，reviewer，`msg_1a5ff4c55001I6xhFbCMf7rQSN`，session `ses_e5a24117effeP0UOoQtfqq6aMb`：
 
 > “shell 沙箱在收尾阶段返回『没有属于本会话的可执行任务』（会话任务已**收口**），额外的回归项独立细查无法再执行，已作为限制如实记录，不影响本轮批准结论。”
 
-- 主 Agent 采纳：2026-11-04T14:25:48.799Z，parser（主 Agent 派工），`msg_1a6f38070002tIwNNzEcVkhnaC`：
+- 主 Agent 采纳：2026-11-04T14:25:48.799Z，parser（主 Agent 派工），`msg_1a6f38070002tIwNNzEcVkhnaC`，session `ses_e5a4c495fffeLta5qOI2xRoCCO`：
 
 > “主 agent 收口指令……停止 rp1t.py 一行的调试……”
 
@@ -44,6 +45,7 @@
 - 时间：2026-11-11T02:43:17.395Z
 - Agent：parser（主 Agent 派工）
 - message_id：`msg_1c87ce5c7002T0FlEpbf4kCL0S`
+- session_id：`ses_e37ab1534ffexdFt3vNslvZxNK`
 - 原文（节选）：
 
 > “本轮只允许**一刀 + 一发**…… PASSED 即停正式提交。若 trial 后 conservation 第四次零位移：立即停手，把上述实测量 vs 壳逻辑 vs 宿主红面三方对账回帖交主 agent 直裁，不再改壳。”
@@ -53,26 +55,27 @@
 
 ## 案例四：`valution`（化石词与语义漂白）
 
-- 首现（Watchdog）：2026-11-06T07:11:36.145Z，`msg_1afb263fb001LZCJ2UrGmoIxcB`，输入 `{"sql": "x"}`。
-- 首现（主 Agent）：2026-11-10T12:38:46.664Z，`msg_1c577d04d001p9qjZAVBVVve0v`，输入 `{"agent": "valuation-parser"}`。
-- 末次：2026-11-10T21:43:58.902Z，`msg_1c76af3a6001vImbMlHw3GHqsl`，输入 `{}`。
+- 首现（Watchdog）：2026-11-06T07:11:36.145Z，`msg_1afb263fb001LZCJ2UrGmoIxcB`，session `ses_81b5a9f654344f30877d11dbf6c60c79`，输入 `{"sql": "x"}`。
+- 首现（主 Agent）：2026-11-10T12:38:46.664Z，`msg_1c577d04d001p9qjZAVBVVve0v`，session `ses_abc2242e4d904322ab3222a8750b5d57`，输入 `{"agent": "valuation-parser"}`。
+- 末次：2026-11-10T21:43:58.902Z，`msg_1c76af3a6001vImbMlHw3GHqsl`（同 session），输入 `{}`。
 - 错误原文：
 
 > “No tool named \"valution\" is currently available. Please use a tool from the available tool list.”
 
-- 图式阶段：
-  1. `agent/sessionID`（46 次，想调 subagent）；
+- 图式阶段（主 Agent，`e6_valution_schema_timeline.csv`）：
+  1. `agent/sessionID`（47 次，想调 subagent）；
   2. `job_id`（600 次，想调 valuation_job）；
   3. `product_id`（455 次，想调 prepare/queue/fast_parse）；
-  4. 空参数（1,176 次，泛化重试）。
-- 成本：2,283 次调用、249,092,664 输入 token、占 11-10 当日 23.8%；主 Agent 2,277 次、248,814,095 token。
-- 重复环：主 Agent 工具序列中 5 个连续 run（3×1、1×3、1×2,271）；2,271 次的 run 是 2,271 条独立 assistant 消息，平均间隔 0.98 秒。
+  4. 空参数（主 Agent 1,175 次 + Watchdog 2 次，泛化重试）；另有 Watchdog `sql` 4 次。四类图式在时间上交错，并非严格串行。
+- 成本：2,283 次调用、249,092,664 输入 token、占 11-10 当日 23.8%；主 Agent 2,277 次、248,814,095 token；词形存活 4.61 天。
+- 重复环：主 Agent 工具序列中 5 个连续 run（3×1、1×3、1×2,271），跨 9.09 小时；爆发内间隔中位数 0.93 秒；49 次 612.5–643.0 秒停顿切成 50 个爆发，停顿合计 8.46 小时（93%）。
+- 外部起搏：49/49 次重新点火前都有同一条 192 字符 synthetic 空闲提醒（先于首调用中位 1.46 秒，最长 27.56 秒；`e6_burst_onsets.csv`）。
 - 条件概率：P(valution | prev=valution)=0.9978；P(valution | prev≠valution)=0.0024；OR≈186,667。
-- 解释：语义漂白（一个词形吸收四种 schema）+ 局部上下文自激 + 开放工具词表 + 成本不可见。
+- 解释：语义漂白（一个词形吸收四种 schema）+ 局部上下文自激 + 外部固定间隔起搏 + 开放工具词表 + 成本不可见。
 
 ## 案例五：Watchdog 判决语法
 
-- 首条判决：2026-11-04T07:39:07.704Z，`msg_1a57f54310012HI0m74ZDrE3pP`：
+- 首条判决：2026-11-04T07:39:07.704Z，`msg_1a57f54310012HI0m74ZDrE3pP`，session `ses_1b1f0f94a0b44f45a0465312cc18db76`：
 
 > `{"decision": "healthy", "summary": "valuation-parser 子会话正在对 data/jobs/J/workspace 下 20 个 .xls 估值表做系统性结构探查……属于真实调试进展而非空转……", "evidence": ["job stage=parser, child ... active", "..."]}`
 

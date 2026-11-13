@@ -23,6 +23,7 @@ tools/*.out
 Thumbs.db
 .vscode/
 .idea/
+.qwen/
 
 # Paper build intermediates
 paper/_build/

@@ -1,6 +1,6 @@
 # 数字对账表
 
-本表列出论文中最关键的 30 个数字及其来源。`G2` 的任务是随机抽取其中 30 个（或全部）与 CSV/JSON 对账；本表先给出基准。
+本表列出论文中最关键的数字及其来源。`analysis/number_audit.py` 自动对账 33 项（v1.1 起含病理结构三项与 PDF 页数），结果写 `data/aggregates/g2_number_audit.csv`；本表给出人工基准。
 
 | # | 数字 | 论文位置 | 来源文件 | 字段/口径 |
 | ---: | --- | --- | --- | --- |
@@ -31,14 +31,19 @@
 | 25 | Watchdog F1 0.932 | 5.2 | `e3_classifier_all.json` | `report.watchdog.f1-score` |
 | 26 | main F1 0.332 | 5.2 | `e3_classifier_all.json` | `report.main.f1-score` |
 | 27 | mean JS 0.4228 / null 0.2299 / excess 0.1929 | 5.3 | `e4_summary.json` | `mean_js` 等 |
-| 28 | main–reviewer 12h slope −0.0152, p=0.015；24h −0.0173, p=0.007 | 5.3 | `e4_trends.csv` / `e4_trends_24h.csv` | `excess_js` |
+| 28 | main–reviewer 12h slope −0.0152, p=0.012, q=0.072；24h −0.0173, p=0.007, q=0.020；main–watchdog 24h −0.0199, p=0.002, q=0.014 | 5.3 | `e4_trends.csv` / `e4_trends_24h.csv` | `excess_js` |
 | 29 | 行话 vs rounds（有派工）ρ=0.253, p=0.0135 | 5.8 | `e9_summary.json` | `jargon_rounds_with_dispatch` |
 | 30 | `valution` 2,283 次 / 249,092,664 token / 23.8% | 5.5 | `e6_summary.json` | `valution_calls` / `valution_tokens_input` / `valution_token_share_of_day` |
 | 31 | `valution` 最大连续 run 2,271 | 5.5 | `e6_summary.json` | `main_valution_max_run` |
 | 32 | 1,119 判决 / 923 合法 / 82.5% | 5.6 | `e7_summary.json` | `verdict_attempts` / `valid_verdicts` / `valid_rate` |
 | 33 | healthy 601 / main 321 / human 1 | 5.6 | `e7_summary.json` | `decision_counts` |
 | 34 | `grep` 151 次全部 error | 5.5 | `b1_tool_summary.csv` | `grep` 行 |
-| 35 | 46 页 PDF | 交付 | `paper/paper.pdf` | `pypdf` 页数 |
+| 35 | 56 页 PDF | 交付 | `paper/paper.pdf` | `pypdf` 页数 |
+| 36 | `valution` 50 爆发 / 49 次重新点火均有 synthetic 触发 / 存活 4.61 天 | 5.5/6.4 | `e6_summary.json` / `e6_burst_onsets.csv` | `main_valution_bursts` / `main_valution_reonsets_with_synthetic_trigger` / `valution_lifespan_days` |
+| 37 | 停顿 612.5–643.0s、合计 8.46h（93%）；触发时差中位 1.46s | 5.5 | `e6_summary.json` | `main_valution_pause_*` / `synthetic_trigger_delta_median_s` |
+| 38 | 去 Watchdog 三分类 macro-F1 0.568；本嗓 main F1 0.000 | 5.2/附录A2 | `e3_classifier_nowd.json` / `e3_classifier_own.json` | `macro_f1` / `report.main.f1-score` |
+| 39 | E9 负二项行话系数 0.212, p=0.010；E8 负二项 watchdog_main p=0.287 | 5.7/5.8 | `e9_summary.json` / `e8_summary.json` | `regression_rounds_nb` / `regression_nb` |
+| 40 | 回报侧首份 n=173（parser 85/reviewer 88），行话 ρ=+0.444/+0.221 | 5.4 | `e5_summary.json` / `e5_report_features.csv` | `reports` |
 
 ## 对账方法
 
@@ -53,3 +58,4 @@ python -c "import pandas as pd; print(pd.read_csv('data/aggregates/e2_term_stats
 - 论文中 `249,092,664` 是全部 `valution` 消息的 `tokens_input`；`248,814,095` 是主 Agent 部分。
 - 论文中 `0.238` 是 `249,092,664 / 1,045,540,166`（11-10 当日输入 token）。
 - 论文中 `macro-F1=0.653` 是 `e3_classifier_all.json`（含 `watchdog_other`）；早期运行（不含 watchdog_other）是 0.687，已在版本中替换。最终以 0.653 为准。
+- v1.1：bootstrap 主结果 5,000 次，12h main–reviewer p 由 0.015 变为 0.012；表 7 增加 q 列。事件级 Poisson 显著项在负二项下不显著，论文已降级为假说。`valution` 间隔统计以 `e6_summary.json` 实测为准（中位 0.93s，49 次 ~10.3min 停顿）。

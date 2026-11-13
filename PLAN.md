@@ -363,3 +363,31 @@ G1 → G2 → G3 → G4
 - [x] 数据/隐私/伦理声明完整；不泄露密钥与敏感凭据。
 - [x] `python analysis/run_all.py --check` 通过；manifest 可校验。
 - [x] PLAN.md 全部勾选；git 历史完整；最终 tag 存在。
+
+---
+
+## 10. 阶段 H：v1.1 修订（2026-11-13 审稿后，用户批准）
+
+> 背景：v1.0 交付后复审发现 8 处硬伤与若干一致性问题（详见 docs/log.md 2026-11-13 START 记录）。
+> 本阶段修复全部问题、优化图表、美化论文、重写摘要与引言提高可读性。数据源仍只读。
+
+- [x] **H1. 修复分析流水线与聚合数据**
+  - `config.py` 官方工具表对齐部署清单（移除未部署的 `verify`；部署为 25 个业务工具 + 11 个内置）。
+  - `tool_evolution.py`：修正 schema 分类（sessionID-only 误判 empty）；补重复环间隔/停顿统计入 `e6_summary.json`。
+  - `dialects.py`：补真正的去 Watchdog 三分类敏感性（`e3_classifier_nowd.json`）；保留 own-voice 并正确命名。
+  - `convergence.py`：主结果 bootstrap 提升到 5,000；补 main 本嗓（剔除派工）敏感性窗口。
+  - `compression.py`：补回报（report）侧长度/结构化/行话趋势。
+  - `events.py`/`outcomes.py`：补负二项稳健性与回归系数 BH q 值。
+  - `robustness.py`：with-dispatch 定义与 E9 对齐（dispatch_tokens>0）。
+  - `lexicon_stats.py`：按冻结标准（存活 ≥2 天或 ≥3 job）标记词项，更新汇总口径。
+  - 重跑受影响模块与 audit（官方/非官方划分变化），更新聚合与 manifest。
+- [x] **H2. 全面修订 paper.md**
+  - 修 8 处硬伤：96.4 亿、间隔统计、表 10 阶段、附录 A2、存活 4.6 天 vs 9 小时爆发、拼写描述、工具归属、涌现标准。
+  - 一致性：n=95/94、11,843/11,839、图序重编号、案例补 session_id、标注流程如实披露、参考文献修正与补引、表 7 补 q、表题移至表上方。
+  - 重写摘要与引言，全文润色提高可读性；补回报侧结果、负二项稳健性、本嗓收敛敏感性、熔断反事实估计。
+- [x] **H3. 优化图表并重编号**
+  - 统一配色/字体/字号/300dpi；图 10–12 按首次引用重编号；fig09 增加停顿结构；fig08 增加回报面板。
+  - `tables.py` 同步表结构（表 7 q 列、表 10 阶段、表 14），重建全部图表。
+- [x] **H4. 重建、对账与交付**
+  - 重建 HTML/PDF；`run_all --check` 与 `privacy_check` 通过。
+  - 更新 methods/number_audit/red_team/case_studies/review_checklist/log；commit；tag `v1.1-paper`。

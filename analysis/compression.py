@@ -100,6 +100,57 @@ def regress(d: pd.DataFrame) -> dict:
     }
 
 
+def report_features() -> tuple[pd.DataFrame, dict]:
+    """Child-agent reports (RQ4 report side): structure and jargon over jobs."""
+    u = pd.read_parquet(config.DERIVED / "utterances.parquet")
+    u = u[(u.act == "report") & u.agent.isin(["parser", "reviewer"])].copy()
+    total = int(len(u))
+    u["time_utc"] = pd.to_datetime(u["time_utc"], utc=True)
+    sessions = pd.read_parquet(config.DERIVED / "sessions.parquet")
+    title = dict(zip(sessions["id"], sessions["title"]))
+    u["job_id"] = pd.to_numeric(u["job_id"], errors="coerce")
+    miss = u["job_id"].isna()
+    u.loc[miss, "job_id"] = pd.to_numeric(
+        u.loc[miss, "session_id"].map(title).str.extract(r"job\s+(\d+)", flags=re.I)[0],
+        errors="coerce",
+    )
+    linked = int(u["job_id"].notna().sum())
+    u = u.dropna(subset=["job_id"]).copy()
+    u["job_id"] = u["job_id"].astype(int)
+    u["role"] = u["agent"]
+    u["tokens"] = u["text"].map(lambda s: len(T.tokenize(s)))
+    u["bullets"] = u["text"].map(lambda s: len(re.findall(r"^\s*(?:[-*]|\d+\.)\s", s, re.M)))
+    u["headings"] = u["text"].map(lambda s: len(re.findall(r"^\s*#+\s", s, re.M)))
+    u["jargon"] = u["text"].map(lambda s: sum(s.count(t) for t, _, _ in lexicon.CURATED))
+    u["jargon_per_1k"] = (u["jargon"] / u["tokens"].clip(lower=1) * 1000).round(2)
+    jobs = pd.read_parquet(config.DERIVED / "jobs.parquet")
+    order = dict(zip(jobs["id"].astype(int), jobs["id"].astype(int).rank(method="dense").astype(int)))
+    u["job_order"] = u["job_id"].map(order)
+    u = u.sort_values("time_utc")
+    cols = ["job_id", "role", "job_order", "time_utc", "text_len", "tokens", "bullets", "headings", "jargon", "jargon_per_1k"]
+    feat = u[cols].copy()
+    initial = u.drop_duplicates(["job_id", "role"], keep="first")
+    corr = {}
+    for role, sub in initial.groupby("role"):
+        corr[role] = {
+            "spearman_len_order": round(float(sub["text_len"].corr(sub["job_order"], method="spearman")), 3),
+            "spearman_tokens_order": round(float(sub["tokens"].corr(sub["job_order"], method="spearman")), 3),
+            "spearman_jargon_order": round(float(sub["jargon_per_1k"].corr(sub["job_order"], method="spearman")), 3),
+            "n": int(len(sub)),
+        }
+    info = {
+        "reports_total": total,
+        "reports_linked": linked,
+        "jobs": int(u["job_id"].nunique()),
+        "initial_reports": int(len(initial)),
+        "by_role": initial.groupby("role").size().to_dict(),
+        "mean_tokens": round(float(initial["tokens"].mean()), 1),
+        "mean_jargon_per_1k": round(float(initial["jargon_per_1k"].mean()), 2),
+        "correlations": corr,
+    }
+    return feat, info
+
+
 def main():
     d = load_dispatches()
     c = complexity()
@@ -144,6 +195,9 @@ def main():
         "n": int(len(j)),
     }
 
+    rep, rep_info = report_features()
+    rep.to_csv(config.AGGREGATES / "e5_report_features.csv", index=False, encoding="utf-8-sig")
+
     summary = {
         "dispatch_rows": int(len(d)),
         "initial_dispatches": int(len(initial)),
@@ -156,6 +210,7 @@ def main():
         "regression": reg,
         "correlations": corr,
         "job_summary": summary_corr,
+        "reports": rep_info,
     }
     (config.AGGREGATES / "e5_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(summary, ensure_ascii=False, indent=2))

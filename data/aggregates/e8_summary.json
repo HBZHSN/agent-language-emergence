@@ -21,8 +21,40 @@
       "watchdog_main": 0.023,
       "valution_calls": 0.5492
     },
+    "q_bh": {
+      "trial_errors": 0.0307,
+      "validate_errors": 0.0307,
+      "watchdog_main": 0.0307,
+      "valution_calls": 0.5492
+    },
     "n": 28,
     "pseudo_r2": 0.1396
+  },
+  "regression_nb": {
+    "coef": {
+      "const": -9.7127,
+      "trial_errors": -0.0214,
+      "validate_errors": -0.0396,
+      "watchdog_main": 0.0647,
+      "valution_calls": -0.0031,
+      "alpha": 1.7672
+    },
+    "p": {
+      "const": 0.0,
+      "trial_errors": 0.0978,
+      "validate_errors": 0.2064,
+      "watchdog_main": 0.2867,
+      "valution_calls": 0.6544,
+      "alpha": 0.0068
+    },
+    "q_bh": {
+      "trial_errors": 0.3822,
+      "validate_errors": 0.3822,
+      "watchdog_main": 0.3822,
+      "valution_calls": 0.6544
+    },
+    "alpha": 1.7672,
+    "n": 28
   },
   "contrast": {
     "median_trial_errors": 5.0,

@@ -19,7 +19,10 @@ from scipy.spatial.distance import jensenshannon
 from analysis import config, text as T
 
 WINDOW = os.environ.get("AGENT_LANG_WINDOW", "12h")
+MAIN_VOICE = os.environ.get("AGENT_LANG_MAIN_VOICE", "all")
 SUFFIX = "" if WINDOW == "12h" else "_" + WINDOW
+if MAIN_VOICE == "own":
+    SUFFIX += "_ownvoice"
 VOICES = ["main", "parser", "reviewer", "watchdog"]
 PAIRS = list(combinations(VOICES, 2))
 
@@ -33,7 +36,8 @@ def load() -> pd.DataFrame:
 
     def voice(row):
         if row["act"] in ("dispatch", "job_summary", "job_instruction"):
-            return "main"
+            # Quoted child/human content relayed by main; "own" excludes it.
+            return None if MAIN_VOICE == "own" else "main"
         if row["act"] == "verdict":
             return "watchdog"
         if row["agent"] in VOICES:
@@ -104,7 +108,7 @@ def trend(values: pd.DataFrame, value_col: str) -> dict:
     slope = float(np.polyfit(x, y, 1)[0])
     rng = np.random.default_rng(42)
     boots = []
-    for _ in range(2000):
+    for _ in range(5000):
         idx = rng.integers(0, len(y), len(y))
         if len(set(idx)) < 3:
             continue
@@ -170,6 +174,9 @@ def main():
     pd.DataFrame(heat).to_csv(config.AGGREGATES / f"e4_early_late{SUFFIX}.csv", index=False, encoding="utf-8-sig")
 
     summary = {
+        "window": WINDOW,
+        "main_voice": MAIN_VOICE,
+        "bootstrap_reps": 5000,
         "windows": int(out["window"].nunique()),
         "pairs": int(out["pair"].nunique()),
         "observations": int(len(out)),

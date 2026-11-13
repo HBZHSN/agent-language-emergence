@@ -5,4 +5,4 @@ results,C:\path\to\valuation\data\results,43829,14388791497,14.39,.json:43829
 diagnostics,C:\path\to\valuation\data\diagnostics,4,17075892,0.02,.json:4
 harness-watch,C:\path\to\valuation\data\harness-watch,390,23847470,0.02,".py:90, .json:88, .md:63, .err:63, .js:30"
 opencode,C:\path\to\valuation\data\opencode,398,775216590,0.78,"<none>:393, .json:1, .db:1, .db-shm:1, .db-wal:1"
-derived,C:\path\to\agent-language\data\derived,1,168001,0.0,.parquet:1
+derived,C:\path\to\agent-language\data\derived,6,214348425,0.21,.parquet:6

@@ -39,5 +39,31 @@
     "spearman_len_order": 0.042,
     "spearman_jargon_order": 0.4,
     "n": 152
+  },
+  "reports": {
+    "reports_total": 870,
+    "reports_linked": 760,
+    "jobs": 95,
+    "initial_reports": 173,
+    "by_role": {
+      "parser": 85,
+      "reviewer": 88
+    },
+    "mean_tokens": 185.9,
+    "mean_jargon_per_1k": 58.85,
+    "correlations": {
+      "parser": {
+        "spearman_len_order": 0.157,
+        "spearman_tokens_order": -0.065,
+        "spearman_jargon_order": 0.444,
+        "n": 85
+      },
+      "reviewer": {
+        "spearman_len_order": -0.022,
+        "spearman_tokens_order": -0.066,
+        "spearman_jargon_order": 0.221,
+        "n": 88
+      }
+    }
   }
 }

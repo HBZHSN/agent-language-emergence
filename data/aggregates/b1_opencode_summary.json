@@ -111,7 +111,7 @@
   "empty_assistant": 27,
   "replacement_chars": 0,
   "tool_names": 80,
-  "non_official_tool_names": 53,
+  "non_official_tool_names": 54,
   "session_tokens_input": 9643030091,
   "session_tokens_output": 32736566,
   "step_tokens_input": 9058762083,

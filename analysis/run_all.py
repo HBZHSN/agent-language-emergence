@@ -82,6 +82,7 @@ def main():
         if module == "analysis.convergence":
             run(module, {"AGENT_LANG_WINDOW": "12h"})
             run(module, {"AGENT_LANG_WINDOW": "24h"})
+            run(module, {"AGENT_LANG_WINDOW": "12h", "AGENT_LANG_MAIN_VOICE": "own"})
         else:
             run(module)
 

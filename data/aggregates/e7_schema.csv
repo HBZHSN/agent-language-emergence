@@ -18,7 +18,6 @@ valuation_verifier,120,job_id,1.0,1.0,1
 valuation_review_reject,82,"job_id,summary",1.0,1.0,1
 valuation_prepare,81,product_id,0.9877,0.9877,2
 valuation_fast_parse,63,product_id,1.0,1.0,1
-valuation_verify,58,job_id,0.9483,0.9483,2
 valuation_products,56,,1.0,0.0,1
 valuation_activate,46,"accepted_changes,job_id,summary",1.0,1.0,1
 valuation_progress,37,,1.0,0.0,1

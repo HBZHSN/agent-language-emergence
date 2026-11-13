@@ -1,21 +1,21 @@
 {
   "tool_calls": 116131,
-  "official_calls": 113707,
-  "nonofficial_calls": 2424,
-  "nonofficial_share": 0.0209,
+  "official_calls": 113649,
+  "nonofficial_calls": 2482,
+  "nonofficial_share": 0.0214,
   "distinct_tools": 80,
-  "distinct_nonofficial": 53,
+  "distinct_nonofficial": 54,
   "valution_calls": 2283,
   "valution_by_agent": {
     "main": 2277,
     "watchdog": 6
   },
   "valution_by_schema": {
-    "empty": 1178,
+    "empty": 1177,
     "job": 600,
     "product": 455,
     "sql": 4,
-    "subagent": 46
+    "subagent": 47
   },
   "valution_success": 0,
   "valution_tokens_input": 249092664,
@@ -31,5 +31,23 @@
   },
   "p_valution_after_valution": 0.9978,
   "p_valution_after_other": 0.0024,
-  "contagion_odds_ratio": 186667.52
+  "contagion_odds_ratio": 186667.52,
+  "valution_lifespan_days": 4.61,
+  "main_valution_span_hours": 9.09,
+  "main_valution_gap_mean_s": 14.37,
+  "main_valution_gap_median_s": 0.93,
+  "main_valution_within_burst_gap_mean_s": 1.01,
+  "main_valution_bursts": 50,
+  "main_valution_pauses_gt_600s": 49,
+  "main_valution_pause_total_hours": 8.46,
+  "main_valution_pause_mean_s": 621.7,
+  "main_valution_pause_min_s": 612.5,
+  "main_valution_pause_max_s": 643.0,
+  "main_valution_error_share": 1.0,
+  "main_valution_reonsets": 49,
+  "main_valution_reonsets_with_synthetic_trigger": 49,
+  "synthetic_trigger_delta_median_s": 1.46,
+  "synthetic_trigger_delta_mean_s": 6.77,
+  "synthetic_trigger_delta_max_s": 27.56,
+  "synthetic_trigger_prompt_variants": 1
 }

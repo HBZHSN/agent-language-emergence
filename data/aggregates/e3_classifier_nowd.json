@@ -1,0 +1,429 @@
+{
+  "n": 8823,
+  "classes": [
+    "main",
+    "parser",
+    "reviewer"
+  ],
+  "macro_f1": 0.5684,
+  "weighted_f1": 0.6577,
+  "report": {
+    "main": {
+      "precision": 0.5562310030395137,
+      "recall": 0.23135271807838179,
+      "f1-score": 0.3267857142857143,
+      "support": 791.0
+    },
+    "parser": {
+      "precision": 0.6595037093885905,
+      "recall": 0.6673569764431789,
+      "f1-score": 0.6634071024189397,
+      "support": 3863.0
+    },
+    "reviewer": {
+      "precision": 0.6826608505997819,
+      "recall": 0.750779563444471,
+      "f1-score": 0.7151016678090016,
+      "support": 4169.0
+    },
+    "accuracy": 0.6676867278703389,
+    "macro avg": {
+      "precision": 0.6327985210092953,
+      "recall": 0.5498297526553438,
+      "f1-score": 0.5684314948378852,
+      "support": 8823.0
+    },
+    "weighted avg": {
+      "precision": 0.6611871969764107,
+      "recall": 0.6676867278703389,
+      "f1-score": 0.6576547647897645,
+      "support": 8823.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      183,
+      350,
+      258
+    ],
+    [
+      88,
+      2578,
+      1197
+    ],
+    [
+      58,
+      981,
+      3130
+    ]
+  ],
+  "top_coefficients": {
+    "main": [
+      {
+        "term": "回合",
+        "coef": 6.9257
+      },
+      {
+        "term": "启用",
+        "coef": 6.4822
+      },
+      {
+        "term": "核验",
+        "coef": 5.3227
+      },
+      {
+        "term": "已发",
+        "coef": 5.1203
+      },
+      {
+        "term": "会话",
+        "coef": 4.6984
+      },
+      {
+        "term": "下发",
+        "coef": 4.3539
+      },
+      {
+        "term": "督导",
+        "coef": 3.7799
+      },
+      {
+        "term": "trial",
+        "coef": 3.6567
+      },
+      {
+        "term": "处置",
+        "coef": 3.38
+      },
+      {
+        "term": "单发 validate",
+        "coef": 3.1705
+      },
+      {
+        "term": "解析",
+        "coef": 3.1111
+      },
+      {
+        "term": "纠偏",
+        "coef": 3.0657
+      },
+      {
+        "term": "解析 会话",
+        "coef": 3.0138
+      },
+      {
+        "term": "changed",
+        "coef": 2.8491
+      },
+      {
+        "term": "已派",
+        "coef": 2.7949
+      },
+      {
+        "term": "validate",
+        "coef": 2.7564
+      },
+      {
+        "term": "通知",
+        "coef": 2.7064
+      },
+      {
+        "term": "审阅",
+        "coef": 2.6474
+      },
+      {
+        "term": "收口",
+        "coef": 2.6047
+      },
+      {
+        "term": "单发",
+        "coef": 2.4567
+      },
+      {
+        "term": "回帖",
+        "coef": 2.4375
+      },
+      {
+        "term": "闭环",
+        "coef": 2.3644
+      },
+      {
+        "term": "watchdog",
+        "coef": 2.3171
+      },
+      {
+        "term": "reviewer",
+        "coef": 2.3021
+      },
+      {
+        "term": "授权",
+        "coef": 2.2872
+      },
+      {
+        "term": "督导 处置",
+        "coef": 2.2765
+      },
+      {
+        "term": "核实",
+        "coef": 2.244
+      },
+      {
+        "term": "changed bindings",
+        "coef": 2.2376
+      },
+      {
+        "term": "stop",
+        "coef": 2.1748
+      },
+      {
+        "term": "核验 会话",
+        "coef": 2.1275
+      }
+    ],
+    "parser": [
+      {
+        "term": "trial",
+        "coef": 5.2473
+      },
+      {
+        "term": "valuation trial",
+        "coef": 2.7028
+      },
+      {
+        "term": "py",
+        "coef": 2.0839
+      },
+      {
+        "term": "parsers",
+        "coef": 1.8029
+      },
+      {
+        "term": "first per",
+        "coef": 1.7702
+      },
+      {
+        "term": "suffix",
+        "coef": 1.7517
+      },
+      {
+        "term": "checks py",
+        "coef": 1.7332
+      },
+      {
+        "term": "job",
+        "coef": 1.7012
+      },
+      {
+        "term": "ruling",
+        "coef": 1.6961
+      },
+      {
+        "term": "before",
+        "coef": 1.6916
+      },
+      {
+        "term": "模块",
+        "coef": 1.6777
+      },
+      {
+        "term": "只读",
+        "coef": 1.6709
+      },
+      {
+        "term": "step",
+        "coef": 1.5819
+      },
+      {
+        "term": "套件",
+        "coef": 1.549
+      },
+      {
+        "term": "read only",
+        "coef": 1.5395
+      },
+      {
+        "term": "checks",
+        "coef": 1.5305
+      },
+      {
+        "term": "xlsx",
+        "coef": 1.5196
+      },
+      {
+        "term": "sha before",
+        "coef": 1.5186
+      },
+      {
+        "term": "shell 故障",
+        "coef": 1.505
+      },
+      {
+        "term": "文件",
+        "coef": 1.4569
+      },
+      {
+        "term": "shared",
+        "coef": 1.4546
+      },
+      {
+        "term": "直查",
+        "coef": 1.453
+      },
+      {
+        "term": "写入",
+        "coef": 1.4361
+      },
+      {
+        "term": "opencode checks",
+        "coef": 1.4253
+      },
+      {
+        "term": "module_02",
+        "coef": 1.3932
+      },
+      {
+        "term": "普查",
+        "coef": 1.3808
+      },
+      {
+        "term": "代码",
+        "coef": 1.364
+      },
+      {
+        "term": "valuation",
+        "coef": 1.3488
+      },
+      {
+        "term": "find",
+        "coef": 1.3468
+      },
+      {
+        "term": "trial passed",
+        "coef": 1.3463
+      }
+    ],
+    "reviewer": [
+      {
+        "term": "review",
+        "coef": 3.9058
+      },
+      {
+        "term": "validate",
+        "coef": 3.4296
+      },
+      {
+        "term": "valuation validate",
+        "coef": 2.7894
+      },
+      {
+        "term": "lock",
+        "coef": 2.5417
+      },
+      {
+        "term": "独立",
+        "coef": 2.5061
+      },
+      {
+        "term": "结论",
+        "coef": 2.1471
+      },
+      {
+        "term": "my",
+        "coef": 2.0787
+      },
+      {
+        "term": "now",
+        "coef": 1.9795
+      },
+      {
+        "term": "independently",
+        "coef": 1.9343
+      },
+      {
+        "term": "review file",
+        "coef": 1.9177
+      },
+      {
+        "term": "independent",
+        "coef": 1.9094
+      },
+      {
+        "term": "job",
+        "coef": 1.9009
+      },
+      {
+        "term": "harness",
+        "coef": 1.8851
+      },
+      {
+        "term": "report",
+        "coef": 1.773
+      },
+      {
+        "term": "claim",
+        "coef": 1.7114
+      },
+      {
+        "term": "ast",
+        "coef": 1.5616
+      },
+      {
+        "term": "green",
+        "coef": 1.5374
+      },
+      {
+        "term": "shell",
+        "coef": 1.5289
+      },
+      {
+        "term": "整段",
+        "coef": 1.523
+      },
+      {
+        "term": "变异",
+        "coef": 1.5209
+      },
+      {
+        "term": "减尺",
+        "coef": 1.5089
+      },
+      {
+        "term": "正式 核验",
+        "coef": 1.5031
+      },
+      {
+        "term": "validation",
+        "coef": 1.5018
+      },
+      {
+        "term": "check json",
+        "coef": 1.485
+      },
+      {
+        "term": "reject",
+        "coef": 1.4646
+      },
+      {
+        "term": "let",
+        "coef": 1.4477
+      },
+      {
+        "term": "c9c",
+        "coef": 1.4343
+      },
+      {
+        "term": "review shell",
+        "coef": 1.4131
+      },
+      {
+        "term": "let me",
+        "coef": 1.4118
+      },
+      {
+        "term": "边界",
+        "coef": 1.4033
+      }
+    ]
+  },
+  "vectorizer_features": 54170
+}

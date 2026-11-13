@@ -76,6 +76,8 @@ def main():
         first_dispatch = dispatch_sub.iloc[0]["time_utc"].isoformat() if len(dispatch_sub) else None
         first_child = child_sub.iloc[0]["time_utc"].isoformat() if len(child_sub) else None
         first_main = main_sub.iloc[0]["time_utc"].isoformat() if len(main_sub) else None
+        days = int((sub["time_utc"].dt.floor("D")).nunique())
+        n_jobs = int(sub["job_id"].nunique(dropna=True))
         stats.append(
             {
                 "term": term,
@@ -86,7 +88,7 @@ def main():
                 "agents": int(sub["agent"].nunique()),
                 "agent_list": ",".join(sorted(sub["agent"].unique())),
                 "sessions": int(sub["session_id"].nunique(dropna=True)),
-                "jobs": int(sub["job_id"].nunique(dropna=True)),
+                "jobs": n_jobs,
                 "first_time": first["time_utc"].isoformat(),
                 "first_agent": first["agent"],
                 "first_voice": first["voice"],
@@ -96,7 +98,8 @@ def main():
                 "first_dispatch_time": first_dispatch,
                 "first_child_time": first_child,
                 "last_time": last["time_utc"].isoformat(),
-                "days": int((sub["time_utc"].dt.floor("D")).nunique()),
+                "days": days,
+                "meets_persistence": bool(days >= 2 or n_jobs >= 3),
                 "seeded": bool(T.is_seeded(term)),
                 "rate_per_10k": round(float(hits.sum()) / max(1, total_tokens) * 10000, 3),
             }
@@ -143,11 +146,15 @@ def main():
     summary = {
         "utterances": int(len(df)),
         "tokens": total_tokens,
+        "curated_list_entries": len(lexicon.CURATED),
         "curated_candidates": len(items),
         "curated_terms": int(len(stats_df)),
         "terms_with_hits": int(len(stats_df)),
+        "zero_hit_terms": int(len(items) - len(stats_df)),
         "terms_all_four_agents": int((stats_df["agents"] == 4).sum()),
         "terms_with_seed_overlap": int(stats_df["seeded"].sum()),
+        "terms_meeting_persistence": int(stats_df["meets_persistence"].sum()),
+        "nonseeded_meeting_persistence": int(((~stats_df["seeded"]) & stats_df["meets_persistence"]).sum()),
         "top_terms": stats_df.head(20)["term"].tolist(),
     }
     (config.AGGREGATES / "e2_summary.json").write_text(

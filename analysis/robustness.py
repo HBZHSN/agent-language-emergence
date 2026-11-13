@@ -43,7 +43,7 @@ def main():
         ("active only", e9[e9.status == "active"]),
         ("rounds<=20", e9[e9.rounds <= 20]),
         ("active & rounds<=20", e9[(e9.status == "active") & (e9.rounds <= 20)]),
-        ("with dispatch", e9[e9.dispatch_jargon_per_1k > 0]),
+        ("with dispatch", e9[e9.dispatch_tokens > 0]),
     ]:
         if len(sub) > 5 and sub.dispatch_jargon_per_1k.nunique() > 2:
             rho, p = spearmanr(sub.dispatch_jargon_per_1k, sub.rounds)
@@ -56,6 +56,32 @@ def main():
     vm = m[m.message_id.isin(v.message_id)]
     rows.append({"check": "E6 valution tokens (all agents)", "statistic": int(vm.tokens_input.sum()), "p": None, "n": int(len(v)), "note": "tokens"})
     rows.append({"check": "E6 valution tokens (main only)", "statistic": int(vm[vm.agent == "main"].tokens_input.sum()), "p": None, "n": int((v.agent == "main").sum()), "note": "tokens"})
+
+    # E3: three-class classifier without watchdog.
+    nowd_path = config.AGGREGATES / "e3_classifier_nowd.json"
+    if nowd_path.exists():
+        clf = json.loads(nowd_path.read_text(encoding="utf-8"))
+        rows.append({"check": "E3 macro-F1 without watchdog (3-class)", "statistic": clf["macro_f1"], "p": None, "n": clf["n"], "note": "GroupKFold by session"})
+
+    # E4: own-voice sensitivity (main's relayed quotes excluded).
+    ov = config.AGGREGATES / "e4_trends_ownvoice.csv"
+    if ov.exists():
+        tr = pd.read_csv(ov)
+        sub = tr[(tr.pair == "main-reviewer") & (tr.metric == "excess_js")]
+        if len(sub):
+            rows.append({"check": "E4 main-reviewer excess JS (12h, own voice)", "statistic": float(sub.iloc[0]["slope_per_day"]), "p": float(sub.iloc[0]["p_two_sided"]), "n": int(sub.iloc[0]["n"]), "note": "slope/day"})
+
+    # E8/E9: NegativeBinomial counterparts of the count regressions.
+    e8_path = config.AGGREGATES / "e8_summary.json"
+    if e8_path.exists():
+        nb8 = json.loads(e8_path.read_text(encoding="utf-8")).get("regression_nb", {})
+        if "coef" in nb8:
+            rows.append({"check": "E8 new terms NB: watchdog_main", "statistic": nb8["coef"].get("watchdog_main"), "p": nb8["p"].get("watchdog_main"), "n": nb8["n"], "note": "NegativeBinomial"})
+    e9_path = config.AGGREGATES / "e9_summary.json"
+    if e9_path.exists():
+        nb9 = json.loads(e9_path.read_text(encoding="utf-8")).get("regression_rounds_nb", {})
+        if "coef" in nb9:
+            rows.append({"check": "E9 rounds NB: dispatch jargon", "statistic": nb9["coef"].get("dispatch_jargon_per_1k"), "p": nb9["p"].get("dispatch_jargon_per_1k"), "n": nb9["n"], "note": "NegativeBinomial"})
 
     out = pd.DataFrame(rows)
     out.to_csv(config.AGGREGATES / "e10_robustness.csv", index=False, encoding="utf-8-sig")

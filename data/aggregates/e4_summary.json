@@ -1,4 +1,7 @@
 {
+  "window": "12h",
+  "main_voice": "all",
+  "bootstrap_reps": 5000,
   "windows": 15,
   "pairs": 6,
   "observations": 90,
@@ -11,163 +14,163 @@
       "pair": "main-parser",
       "metric": "js",
       "slope_per_day": 0.004687992378780634,
-      "ci_low": -0.009879375815476415,
-      "ci_high": 0.01773287787502621,
+      "ci_low": -0.009251188250253034,
+      "ci_high": 0.017238339139622104,
       "n": 15,
-      "p_two_sided": 0.46
+      "p_two_sided": 0.4808
     },
     {
       "pair": "main-parser",
       "metric": "excess_js",
       "slope_per_day": -0.005962523100853041,
-      "ci_low": -0.015113697685424993,
-      "ci_high": 0.005866048908115277,
+      "ci_low": -0.014966656907777869,
+      "ci_high": 0.005847974647438417,
       "n": 15,
-      "p_two_sided": 0.229
+      "p_two_sided": 0.2368
     },
     {
       "pair": "main-parser",
       "metric": "jaccard_top200",
       "slope_per_day": -0.003518703657053399,
-      "ci_low": -0.02209437233033676,
-      "ci_high": 0.013093759954871316,
+      "ci_low": -0.021234610285881642,
+      "ci_high": 0.013168907213255006,
       "n": 15,
-      "p_two_sided": 0.66
+      "p_two_sided": 0.6692
     },
     {
       "pair": "main-reviewer",
       "metric": "js",
       "slope_per_day": 0.0035335701220333793,
-      "ci_low": -0.020721556202740205,
-      "ci_high": 0.02072730017456456,
+      "ci_low": -0.020432841134781013,
+      "ci_high": 0.020556879404528508,
       "n": 15,
-      "p_two_sided": 0.72
+      "p_two_sided": 0.736
     },
     {
       "pair": "main-reviewer",
       "metric": "excess_js",
       "slope_per_day": -0.015168580299411488,
-      "ci_low": -0.02714446396961292,
-      "ci_high": -0.0042220674722372835,
+      "ci_low": -0.027086967033434665,
+      "ci_high": -0.003936883974696938,
       "n": 15,
-      "p_two_sided": 0.015
+      "p_two_sided": 0.012
     },
     {
       "pair": "main-reviewer",
       "metric": "jaccard_top200",
       "slope_per_day": 0.0040240605071190745,
-      "ci_low": -0.025364532974123107,
-      "ci_high": 0.034446844095122296,
+      "ci_low": -0.0249353168220514,
+      "ci_high": 0.03491089764142782,
       "n": 15,
-      "p_two_sided": 0.817
+      "p_two_sided": 0.7852
     },
     {
       "pair": "main-watchdog",
       "metric": "js",
       "slope_per_day": -0.012318592996992209,
-      "ci_low": -0.024434470015745544,
-      "ci_high": -0.0038960017563786807,
+      "ci_low": -0.024656767531705953,
+      "ci_high": -0.0038889711896115658,
       "n": 15,
-      "p_two_sided": 0.004
+      "p_two_sided": 0.0036
     },
     {
       "pair": "main-watchdog",
       "metric": "excess_js",
       "slope_per_day": -0.008914964386462977,
-      "ci_low": -0.023833789470327257,
-      "ci_high": 0.007606580432397075,
+      "ci_low": -0.023873171517568906,
+      "ci_high": 0.007448197529762924,
       "n": 15,
-      "p_two_sided": 0.295
+      "p_two_sided": 0.2852
     },
     {
       "pair": "main-watchdog",
       "metric": "jaccard_top200",
       "slope_per_day": 0.00873875093354498,
-      "ci_low": -0.0010740153887569771,
-      "ci_high": 0.021907502039433997,
+      "ci_low": -0.0009019451397687381,
+      "ci_high": 0.02221768463382614,
       "n": 15,
-      "p_two_sided": 0.1
+      "p_two_sided": 0.0868
     },
     {
       "pair": "parser-reviewer",
       "metric": "js",
       "slope_per_day": 0.00860899856501229,
-      "ci_low": -0.0023946546698128384,
-      "ci_high": 0.01949653952991627,
+      "ci_low": -0.002583693012407768,
+      "ci_high": 0.019252662913838373,
       "n": 15,
-      "p_two_sided": 0.131
+      "p_two_sided": 0.132
     },
     {
       "pair": "parser-reviewer",
       "metric": "excess_js",
       "slope_per_day": 0.003401430629160104,
-      "ci_low": -0.006967407369298974,
-      "ci_high": 0.01209047857853447,
+      "ci_low": -0.006966598154040555,
+      "ci_high": 0.012363834572408808,
       "n": 15,
-      "p_two_sided": 0.459
+      "p_two_sided": 0.4652
     },
     {
       "pair": "parser-reviewer",
       "metric": "jaccard_top200",
       "slope_per_day": -0.01130117272579625,
-      "ci_low": -0.03417862106689091,
-      "ci_high": 0.013392478734616887,
+      "ci_low": -0.03352739628896966,
+      "ci_high": 0.01355048586241177,
       "n": 15,
-      "p_two_sided": 0.359
+      "p_two_sided": 0.3616
     },
     {
       "pair": "parser-watchdog",
       "metric": "js",
       "slope_per_day": -0.009870194724094773,
-      "ci_low": -0.015335960388606566,
-      "ci_high": -0.004247608325189877,
+      "ci_low": -0.015698533891585067,
+      "ci_high": -0.0046570299972546,
       "n": 15,
-      "p_two_sided": 0.001
+      "p_two_sided": 0.0008
     },
     {
       "pair": "parser-watchdog",
       "metric": "excess_js",
       "slope_per_day": -0.0004899502730997154,
-      "ci_low": -0.01128306071787895,
-      "ci_high": 0.00941695546802222,
+      "ci_low": -0.010881295086947582,
+      "ci_high": 0.009740969286203733,
       "n": 15,
-      "p_two_sided": 0.911
+      "p_two_sided": 0.91
     },
     {
       "pair": "parser-watchdog",
       "metric": "jaccard_top200",
       "slope_per_day": 0.003817657590015102,
-      "ci_low": -0.005028451688969903,
-      "ci_high": 0.013616073063046163,
+      "ci_low": -0.0047136359987243635,
+      "ci_high": 0.014094803587340958,
       "n": 15,
-      "p_two_sided": 0.396
+      "p_two_sided": 0.3864
     },
     {
       "pair": "reviewer-watchdog",
       "metric": "js",
       "slope_per_day": -0.00834766983471823,
-      "ci_low": -0.017587328895171526,
-      "ci_high": 0.000942556683038283,
+      "ci_low": -0.017714252135525885,
+      "ci_high": 0.0010303484250345594,
       "n": 15,
-      "p_two_sided": 0.089
+      "p_two_sided": 0.086
     },
     {
       "pair": "reviewer-watchdog",
       "metric": "excess_js",
       "slope_per_day": -0.005724626741355368,
-      "ci_low": -0.022152528451901236,
-      "ci_high": 0.009741717146547807,
+      "ci_low": -0.02158278771035373,
+      "ci_high": 0.010028431594093968,
       "n": 15,
-      "p_two_sided": 0.45
+      "p_two_sided": 0.4508
     },
     {
       "pair": "reviewer-watchdog",
       "metric": "jaccard_top200",
       "slope_per_day": 0.002064936606333163,
-      "ci_low": -0.0135094672344171,
-      "ci_high": 0.018890857496613248,
+      "ci_low": -0.013787343362798186,
+      "ci_high": 0.01898435467080102,
       "n": 15,
-      "p_two_sided": 0.816
+      "p_two_sided": 0.8036
     }
   ]
 }

@@ -63,13 +63,20 @@ def main():
     # valution breakdown.  The form is used as a universal placeholder for
     # several different tool schemas (subagent, job, product, empty).
     v = t[t.tool_name == "valution"].copy()
-    v["schema"] = np.where(
-        v.input_keys.str.contains("sql", na=False),
-        "sql",
-        np.where(v.input_keys.str.contains("agent", na=False), "subagent",
-                 np.where(v.input_keys.str.contains("job_id", na=False), "job",
-                          np.where(v.input_keys.str.contains("product_id", na=False), "product", "empty"))),
-    )
+
+    def schema_of(keys) -> str:
+        k = {x for x in str(keys).split(",") if x} if isinstance(keys, str) else set()
+        if "sql" in k:
+            return "sql"
+        if k and k <= {"agent", "sessionID"}:
+            return "subagent"
+        if "job_id" in k:
+            return "job"
+        if "product_id" in k:
+            return "product"
+        return "empty"
+
+    v["schema"] = v.input_keys.map(schema_of)
     breakdown = v.groupby(["agent", "schema", "status"]).size().reset_index(name="calls")
     breakdown.to_csv(config.AGGREGATES / "e6_valution_breakdown.csv", index=False, encoding="utf-8-sig")
 
@@ -132,6 +139,40 @@ def main():
     p_v = sum(1 for x in after_v if x == "valution") / max(1, len(after_v))
     p_o = sum(1 for x in after_o if x == "valution") / max(1, len(after_o))
 
+    # Timing structure of the main-agent valution burst: rapid within-burst
+    # calls separated by long pauses (a single continuous loop would have no
+    # such pauses).  Pauses > 600 s are treated as burst boundaries.
+    vm_main = v[v.agent == "main"].sort_values("time_utc")
+    gaps = vm_main.time_utc.diff().dt.total_seconds().dropna()
+    pauses = gaps[gaps > 600]
+    within = gaps[gaps <= 600]
+    lifespan_days = (v.time_utc.max() - v.time_utc.min()).total_seconds() / 86400
+
+    # External pacing: does a synthetic idle-monitor notification precede each
+    # burst re-onset?  Record the trigger message for citable evidence.
+    msgs = pd.read_parquet(config.DERIVED / "messages.parquet")
+    msgs["time_utc"] = pd.to_datetime(msgs["time_utc"], utc=True)
+    syn = msgs[msgs.type == "synthetic"]
+    onset_rows = []
+    trig_deltas = []
+    trig_texts = set()
+    for pos in pauses.index:
+        row = vm_main.loc[pos]
+        t0, sid = row.time_utc, row.session_id
+        cand = syn[(syn.session_id == sid) & (syn.time_utc <= t0) & (syn.time_utc >= t0 - pd.Timedelta(seconds=300))]
+        rec = {"onset_utc": t0.isoformat(), "gap_before_s": round(float(gaps.loc[pos]), 1), "session_id": sid,
+               "synthetic_message_id": None, "trigger_delta_s": None}
+        if len(cand):
+            last = cand.sort_values("time_utc").iloc[-1]
+            delta = float((t0 - last.time_utc).total_seconds())
+            trig_deltas.append(delta)
+            trig_texts.add(last["text"] if isinstance(last["text"], str) else "")
+            rec["synthetic_message_id"] = last.message_id
+            rec["trigger_delta_s"] = round(delta, 2)
+        onset_rows.append(rec)
+    pd.DataFrame(onset_rows).to_csv(config.AGGREGATES / "e6_burst_onsets.csv", index=False, encoding="utf-8-sig")
+    trig = pd.Series(trig_deltas)
+
     summary = {
         "tool_calls": int(len(t)),
         "official_calls": int(t.official.sum()),
@@ -153,6 +194,24 @@ def main():
         "p_valution_after_valution": round(float(p_v), 4),
         "p_valution_after_other": round(float(p_o), 4),
         "contagion_odds_ratio": round(float((p_v / max(1e-9, 1 - p_v)) / (p_o / max(1e-9, 1 - p_o))), 4),
+        "valution_lifespan_days": round(float(lifespan_days), 2),
+        "main_valution_span_hours": round(float((vm_main.time_utc.max() - vm_main.time_utc.min()).total_seconds() / 3600), 2),
+        "main_valution_gap_mean_s": round(float(gaps.mean()), 2),
+        "main_valution_gap_median_s": round(float(gaps.median()), 2),
+        "main_valution_within_burst_gap_mean_s": round(float(within.mean()), 2) if len(within) else None,
+        "main_valution_bursts": int(len(pauses) + 1),
+        "main_valution_pauses_gt_600s": int(len(pauses)),
+        "main_valution_pause_total_hours": round(float(pauses.sum() / 3600), 2),
+        "main_valution_pause_mean_s": round(float(pauses.mean()), 1) if len(pauses) else None,
+        "main_valution_pause_min_s": round(float(pauses.min()), 1) if len(pauses) else None,
+        "main_valution_pause_max_s": round(float(pauses.max()), 1) if len(pauses) else None,
+        "main_valution_error_share": round(float((vm_main.status == "error").mean()), 4),
+        "main_valution_reonsets": int(len(pauses)),
+        "main_valution_reonsets_with_synthetic_trigger": int(len(trig_deltas)),
+        "synthetic_trigger_delta_median_s": round(float(trig.median()), 2) if len(trig) else None,
+        "synthetic_trigger_delta_mean_s": round(float(trig.mean()), 2) if len(trig) else None,
+        "synthetic_trigger_delta_max_s": round(float(trig.max()), 2) if len(trig) else None,
+        "synthetic_trigger_prompt_variants": int(len(trig_texts)),
     }
     (config.AGGREGATES / "e6_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(summary, ensure_ascii=False, indent=2))

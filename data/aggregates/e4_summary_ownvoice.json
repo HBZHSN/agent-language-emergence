@@ -1,0 +1,176 @@
+{
+  "window": "12h",
+  "main_voice": "own",
+  "bootstrap_reps": 5000,
+  "windows": 15,
+  "pairs": 6,
+  "observations": 60,
+  "mean_js": 0.4178,
+  "mean_null_js": 0.2371,
+  "mean_excess_js": 0.1807,
+  "mean_jaccard_top200": 0.3331,
+  "trends": [
+    {
+      "pair": "main-parser",
+      "metric": "js",
+      "slope_per_day": 0.04261623416424609,
+      "ci_low": -0.0506695133448003,
+      "ci_high": 0.1560523778271283,
+      "n": 5,
+      "p_two_sided": 0.10809608540925267
+    },
+    {
+      "pair": "main-parser",
+      "metric": "excess_js",
+      "slope_per_day": -0.00015297892440737095,
+      "ci_low": -0.07890993456781363,
+      "ci_high": 0.11369113469403253,
+      "n": 5,
+      "p_two_sided": 0.8634341637010676
+    },
+    {
+      "pair": "main-parser",
+      "metric": "jaccard_top200",
+      "slope_per_day": -0.08674159863755794,
+      "ci_low": -0.27323630573840724,
+      "ci_high": 0.10634427559958583,
+      "n": 5,
+      "p_two_sided": 0.10809608540925267
+    },
+    {
+      "pair": "main-reviewer",
+      "metric": "js",
+      "slope_per_day": 0.11464184134369766,
+      "ci_low": -0.011663043386290997,
+      "ci_high": 0.21682367482379497,
+      "n": 5,
+      "p_two_sided": 0.08274021352313167
+    },
+    {
+      "pair": "main-reviewer",
+      "metric": "excess_js",
+      "slope_per_day": 0.004032008373856413,
+      "ci_low": -0.016515212746182416,
+      "ci_high": 0.016724406111139622,
+      "n": 5,
+      "p_two_sided": 0.5765124555160143
+    },
+    {
+      "pair": "main-reviewer",
+      "metric": "jaccard_top200",
+      "slope_per_day": -0.19889346410884168,
+      "ci_low": -0.38602941176470607,
+      "ci_high": -0.012303149606299128,
+      "n": 5,
+      "p_two_sided": 0.03069395017793594
+    },
+    {
+      "pair": "main-watchdog",
+      "metric": "js",
+      "slope_per_day": 0.04087560987296007,
+      "ci_low": -0.004232456255982788,
+      "ci_high": 0.09845407711673101,
+      "n": 5,
+      "p_two_sided": 0.09519572953736655
+    },
+    {
+      "pair": "main-watchdog",
+      "metric": "excess_js",
+      "slope_per_day": 0.01672069765247873,
+      "ci_low": -0.020895364088540383,
+      "ci_high": 0.04858788150192642,
+      "n": 5,
+      "p_two_sided": 0.1854982206405694
+    },
+    {
+      "pair": "main-watchdog",
+      "metric": "jaccard_top200",
+      "slope_per_day": -0.058047457456973046,
+      "ci_low": -0.16674683341350008,
+      "ci_high": 0.04609475032010251,
+      "n": 5,
+      "p_two_sided": 0.10809608540925267
+    },
+    {
+      "pair": "parser-reviewer",
+      "metric": "js",
+      "slope_per_day": 0.008630593969676583,
+      "ci_low": -0.0025582087241226084,
+      "ci_high": 0.019181526406647866,
+      "n": 15,
+      "p_two_sided": 0.1324
+    },
+    {
+      "pair": "parser-reviewer",
+      "metric": "excess_js",
+      "slope_per_day": 0.003693128247118646,
+      "ci_low": -0.006763272928179499,
+      "ci_high": 0.012340365936207217,
+      "n": 15,
+      "p_two_sided": 0.42
+    },
+    {
+      "pair": "parser-reviewer",
+      "metric": "jaccard_top200",
+      "slope_per_day": -0.012501432796833188,
+      "ci_low": -0.035318780152555906,
+      "ci_high": 0.014205609955900528,
+      "n": 15,
+      "p_two_sided": 0.3408
+    },
+    {
+      "pair": "parser-watchdog",
+      "metric": "js",
+      "slope_per_day": -0.00970850072687876,
+      "ci_low": -0.015445914253821382,
+      "ci_high": -0.004507673998471089,
+      "n": 15,
+      "p_two_sided": 0.0016
+    },
+    {
+      "pair": "parser-watchdog",
+      "metric": "excess_js",
+      "slope_per_day": -0.0004535231020595549,
+      "ci_low": -0.010762041665584204,
+      "ci_high": 0.009854176713384424,
+      "n": 15,
+      "p_two_sided": 0.9136
+    },
+    {
+      "pair": "parser-watchdog",
+      "metric": "jaccard_top200",
+      "slope_per_day": 0.004713735849536471,
+      "ci_low": -0.0045428917765566856,
+      "ci_high": 0.016566934489872204,
+      "n": 15,
+      "p_two_sided": 0.322
+    },
+    {
+      "pair": "reviewer-watchdog",
+      "metric": "js",
+      "slope_per_day": -0.008264042038987665,
+      "ci_low": -0.01751836845747064,
+      "ci_high": 0.0009756200192857801,
+      "n": 15,
+      "p_two_sided": 0.0868
+    },
+    {
+      "pair": "reviewer-watchdog",
+      "metric": "excess_js",
+      "slope_per_day": -0.005788687868189814,
+      "ci_low": -0.021759266633628607,
+      "ci_high": 0.009934599890467967,
+      "n": 15,
+      "p_two_sided": 0.4484
+    },
+    {
+      "pair": "reviewer-watchdog",
+      "metric": "jaccard_top200",
+      "slope_per_day": 0.0009224435754306354,
+      "ci_low": -0.014151612062843072,
+      "ci_high": 0.017959413143220606,
+      "n": 15,
+      "p_two_sided": 0.906
+    }
+  ]
+}

@@ -125,6 +125,20 @@ def main():
             }
         except Exception as exc:
             reg = {"error": str(exc), "n": int(len(reg_df))}
+    reg_nb = {}
+    if len(reg_df) >= 20:
+        try:
+            from statsmodels.discrete.discrete_model import NegativeBinomial
+
+            nb = NegativeBinomial(y, X).fit(disp=0, maxiter=200)
+            reg_nb = {
+                "n": int(len(reg_df)),
+                "coef": {k: round(float(v), 4) for k, v in nb.params.items()},
+                "p": {k: round(float(v), 4) for k, v in nb.pvalues.items()},
+                "alpha": round(float(nb.params.get("alpha", np.nan)), 4),
+            }
+        except Exception as exc:
+            reg_nb = {"error": str(exc), "n": int(len(reg_df))}
 
     disp = df[df["dispatch_tokens"] > 0]
     filtered_rho, filtered_p = spearmanr(disp["dispatch_jargon_per_1k"], disp["rounds"])
@@ -136,6 +150,7 @@ def main():
         "jargon_rounds_with_dispatch": round(float(filtered_rho), 3),
         "jargon_rounds_with_dispatch_p": round(float(filtered_p), 4),
         "regression_rounds": reg,
+        "regression_rounds_nb": reg_nb,
         "descriptives": {
             "rounds_median": float(df["rounds"].median()),
             "rounds_max": float(df["rounds"].max()),

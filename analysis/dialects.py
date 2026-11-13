@@ -45,7 +45,8 @@ def load() -> pd.DataFrame:
     return df
 
 
-def classifier(df: pd.DataFrame, suffix: str = "") -> dict:
+def classifier(df: pd.DataFrame, suffix: str = "", labels: list[str] | None = None) -> dict:
+    labels = labels or AGENTS
     X = np.asarray(df["doc"].tolist(), dtype=object)
     y = np.asarray(df["agent"].tolist(), dtype=object)
     groups = np.asarray(df["group"].tolist(), dtype=object)
@@ -57,10 +58,10 @@ def classifier(df: pd.DataFrame, suffix: str = "") -> dict:
     )
     cv = GroupKFold(n_splits=5)
     pred = cross_val_predict(pipe, X, y, groups=groups, cv=cv, n_jobs=1)
-    report = classification_report(y, pred, labels=AGENTS, output_dict=True, zero_division=0)
-    cm = confusion_matrix(y, pred, labels=AGENTS).tolist()
-    macro = f1_score(y, pred, average="macro")
-    weighted = f1_score(y, pred, average="weighted")
+    report = classification_report(y, pred, labels=labels, output_dict=True, zero_division=0)
+    cm = confusion_matrix(y, pred, labels=labels).tolist()
+    macro = f1_score(y, pred, labels=labels, average="macro")
+    weighted = f1_score(y, pred, labels=labels, average="weighted")
     # Full fit for interpretable coefficients.
     pipe.fit(X, y)
     vec: TfidfVectorizer = pipe.named_steps["tfidf"]
@@ -83,7 +84,7 @@ def classifier(df: pd.DataFrame, suffix: str = "") -> dict:
     (config.AGGREGATES / f"e3_classifier{suffix}.json").write_text(
         json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8"
     )
-    pd.DataFrame(cm, index=AGENTS, columns=AGENTS).to_csv(
+    pd.DataFrame(cm, index=labels, columns=labels).to_csv(
         config.AGGREGATES / f"e3_confusion{suffix}.csv", encoding="utf-8-sig"
     )
     return out
@@ -159,11 +160,14 @@ def main():
     print("corpus", len(df), df.groupby("agent").size().to_dict())
     own = df[~df.act.isin(["dispatch", "job_summary", "job_instruction"])].copy()
     print("own-voice", len(own), own.groupby("agent").size().to_dict())
+    nowd = df[df.agent != "watchdog"].copy()
+    print("no-watchdog", len(nowd), nowd.groupby("agent").size().to_dict())
     clf_own = classifier(own, suffix="_own")
     clf_all = classifier(df, suffix="_all")
-    for name, clf in (("own", clf_own), ("all", clf_all)):
+    clf_nowd = classifier(nowd, suffix="_nowd", labels=["main", "parser", "reviewer"])
+    for name, clf, labels in (("own", clf_own, AGENTS), ("all", clf_all, AGENTS), ("nowd", clf_nowd, ["main", "parser", "reviewer"])):
         print(name, json.dumps({k: clf[k] for k in ["n", "macro_f1", "weighted_f1", "vectorizer_features"]}, ensure_ascii=False, indent=2))
-        print(pd.DataFrame(clf["confusion_matrix"], index=AGENTS, columns=AGENTS))
+        print(pd.DataFrame(clf["confusion_matrix"], index=labels, columns=labels))
     lo = log_odds(df)
     print(lo.groupby("agent").head(8)[["agent", "term", "count_agent", "count_rest", "z"]].to_string(index=False))
     st = style(df)

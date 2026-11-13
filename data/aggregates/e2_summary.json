@@ -1,11 +1,15 @@
 {
   "utterances": 11843,
   "tokens": 927491,
+  "curated_list_entries": 75,
   "curated_candidates": 73,
   "curated_terms": 69,
   "terms_with_hits": 69,
+  "zero_hit_terms": 4,
   "terms_all_four_agents": 64,
   "terms_with_seed_overlap": 9,
+  "terms_meeting_persistence": 66,
+  "nonseeded_meeting_persistence": 57,
   "top_terms": [
     "逐字",
     "收口",

@@ -12,6 +12,19 @@ from scipy.stats import mannwhitneyu, spearmanr
 from analysis import config, lexicon, text as T
 
 BIN = "6h"
+PREDICTORS = ["trial_errors", "validate_errors", "watchdog_main", "valution_calls"]
+
+
+def bh_q(pvals: list[float]) -> list[float]:
+    m = len(pvals)
+    order = sorted(range(m), key=lambda i: pvals[i])
+    q = [0.0] * m
+    prev = 1.0
+    for rank in range(m, 0, -1):
+        i = order[rank - 1]
+        prev = min(prev, pvals[i] * m / rank)
+        q[i] = prev
+    return q
 
 
 def load() -> pd.DataFrame:
@@ -75,21 +88,40 @@ def main():
     pd.DataFrame(corr).to_csv(config.AGGREGATES / "e8_correlations.csv", index=False, encoding="utf-8-sig")
 
     # Poisson regression with log tokens offset.  n is small; report as
-    # descriptive association, not causal effect.
+    # descriptive association, not causal effect.  NegativeBinomial is the
+    # overdispersion-robust counterpart.
     X = base[["trial_errors", "validate_errors", "watchdog_main", "valution_calls"]].astype(float)
     X = sm.add_constant(X)
     y = base["new_terms"].astype(float)
     offset = np.log(base["tokens"].clip(lower=1))
     try:
         model = sm.GLM(y, X, family=sm.families.Poisson(), offset=offset).fit()
+        pvals = {k: float(v) for k, v in model.pvalues.items()}
+        q = bh_q([pvals[k] for k in PREDICTORS])
         reg = {
             "coef": {k: round(float(v), 4) for k, v in model.params.items()},
-            "p": {k: round(float(v), 4) for k, v in model.pvalues.items()},
+            "p": {k: round(v, 4) for k, v in pvals.items()},
+            "q_bh": {k: round(qi, 4) for k, qi in zip(PREDICTORS, q)},
             "n": int(len(base)),
             "pseudo_r2": round(float(1 - model.deviance / model.null_deviance), 4),
         }
     except Exception as exc:
         reg = {"error": str(exc)}
+    try:
+        from statsmodels.discrete.discrete_model import NegativeBinomial
+
+        nb = NegativeBinomial(y, X, offset=offset).fit(disp=0, maxiter=200)
+        nb_p = {k: float(v) for k, v in nb.pvalues.items()}
+        nb_q = bh_q([nb_p[k] for k in PREDICTORS])
+        nb_reg = {
+            "coef": {k: round(float(v), 4) for k, v in nb.params.items()},
+            "p": {k: round(v, 4) for k, v in nb_p.items()},
+            "q_bh": {k: round(qi, 4) for k, qi in zip(PREDICTORS, nb_q)},
+            "alpha": round(float(nb.params.get("alpha", np.nan)), 4),
+            "n": int(len(base)),
+        }
+    except Exception as exc:
+        nb_reg = {"error": str(exc)}
 
     # Event contrast: bins with above-median trial errors vs below.
     med = base["trial_errors"].median()
@@ -110,6 +142,7 @@ def main():
         "watchdog_main_total": int(base["watchdog_main"].sum()),
         "valution_total": int(base["valution_calls"].sum()),
         "regression": reg,
+        "regression_nb": nb_reg,
         "contrast": contrast,
         "correlations": corr,
     }

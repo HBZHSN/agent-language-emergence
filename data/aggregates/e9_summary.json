@@ -19,6 +19,22 @@
     },
     "pseudo_r2": 0.0702
   },
+  "regression_rounds_nb": {
+    "n": 90,
+    "coef": {
+      "const": 1.2315,
+      "dispatch_jargon_per_1k": 0.212,
+      "dispatch_tokens": -0.0454,
+      "alpha": 0.2866
+    },
+    "p": {
+      "const": 0.0,
+      "dispatch_jargon_per_1k": 0.0104,
+      "dispatch_tokens": 0.5685,
+      "alpha": 0.0004
+    },
+    "alpha": 0.2866
+  },
   "descriptives": {
     "rounds_median": 2.0,
     "rounds_max": 124.0,

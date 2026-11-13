@@ -89,8 +89,9 @@ _VALUATION_ACTIONS = [
     "history",
     "query",
     "confirm",
-    "verify",
 ]
+# Deployed list per valuation/opencode/index.js (25 business tools; the
+# deployed name is valuation_verifier, not valuation_verify).
 OFFICIAL_TOOLS |= {"valuation_" + a for a in _VALUATION_ACTIONS}
 
 MODEL_PROVIDER = "valuation"

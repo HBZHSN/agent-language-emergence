@@ -12,9 +12,9 @@
   "mean_summary_len": 986.4,
   "mean_evidence_n": 6.09,
   "evidence_gt_6": 105,
-  "tools_with_schema": 24,
-  "mean_exact_match": 0.8761,
-  "mean_jaccard": 0.8193,
+  "tools_with_schema": 23,
+  "mean_exact_match": 0.873,
+  "mean_jaccard": 0.8137,
   "top_schema": [
     {
       "tool": "shell",

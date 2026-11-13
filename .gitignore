@@ -1,0 +1,29 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Data exports (large / reproducible)
+data/derived/
+data/raw/
+*.parquet
+*.jsonl.gz
+
+# Scratch
+tools/_scratch/
+tools/*.txt
+tools/*.out
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Paper build intermediates
+paper/_build/
+paper/*.aux
+paper/*.toc

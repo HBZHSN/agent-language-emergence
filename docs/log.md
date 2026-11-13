@@ -1,0 +1,6 @@
+# 执行日志
+
+格式：`YYYY-MM-DD HH:MM | <编号> | START/DONE/BLOCKED | 命令/产物 | 关键数字/备注`
+
+- 2026-11-13 | A1-A3 | START | 初始化仓库、写 PLAN/AGENTS/README/.gitignore | 计划共 8 个阶段、60+ 可勾选项
+- 2026-11-13 | A1-A3 | DONE | git init; PLAN.md/AGENTS.md/README.md/.gitignore/docs/log.md | 初版计划完成

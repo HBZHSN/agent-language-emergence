@@ -52,6 +52,6 @@
 
 ## 待办
 
-- [ ] `python -m analysis.run_all --check` 最终跑通（G1）。
+- [x] `python -m analysis.run_all --check` 最终跑通（G1）。
 - [x] 30 个数字人工对账（G2）。
-- [ ] 最终 tag `v1.0-paper`（G4）。
+- [x] 最终 tag `v1.0-paper`（G4）。

@@ -12,3 +12,4 @@
 - 2026-11-13 | E1-E12 | DONE | e2..e11 aggregates + docs/case_studies.md | 39 main-first / 28 child-first; macro-F1 .653; valution 2283 / 249M tokens
 - 2026-11-13 | F1-F6 | DONE | 12 figures / 14 tables / paper.md / paper.html / paper.pdf (46 pages) / review_checklist / red_team | 49222 chars
 - 2026-11-13 | G1-G3 | DONE | run_all --check exit 0; number_audit 0/30 failed; privacy_check --all passed | manifest 66 aggregates; PDF 46 pages
+- 2026-11-13 | G4 | DONE | final tag v1.0-paper; PLAN 全部勾选; 46 页 PDF; 66 个聚合; 0/30 数字失败; privacy_check 通过

@@ -25,3 +25,5 @@
 - 2026-11-13 08:48 UTC | H2 | DONE | paper.md 全面修订 | 修 8 处硬伤（96.4 亿、间隔统计、表 10 阶段、附录 A2、存活 4.61 天、拼写描述、工具归属、涌现标准）；摘要/引言重写；表 7 补 12h/24h p/q；16 张表题移至表上方；案例补 session_id；补回报侧/NB/本嗓/熔断反事实；参考文献修正与补引；约 5.7 万字符
 - 2026-11-13 08:48 UTC | H3 | DONE | figures.py/tables.py + 重建 12 图 14 表 | 统一配色/字体/300dpi；图 10–12 按首次引用重编号（protocol→10、events→11、outcomes→12）；fig08 增回报面板(c)、fig09 增停顿结构(b)；表 7 q 列、表 12 q_bh、表 13 NB 列；删除旧 fig10_outcomes/fig11_protocol/fig12_events
 - 2026-11-13 08:48 UTC | H4 | DONE | build_paper.py + number_audit.py + 重建 HTML/PDF + 文档 + 提交 | HTML 89,158 字符；PDF 56 页；run_all --check exit 0；privacy_check 通过；number_audit 0/33 失败；更新 methods/number_audit/red_team/case_studies/review_checklist/log；tag v1.1-paper
+
+- 2026-11-13 09:15 UTC | R1-R3 | START | 继续 Qwen 因额度耗尽而中断的公开发布任务：先路径脱敏与历史清理，再写双语 README，最后建 public 仓库并推送 | 仓库外已有完整 bundle 备份并通过 `git bundle verify`；filter-repo 先在临时克隆上验证通过（0 个源路径标识，tags 保留）

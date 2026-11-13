@@ -391,3 +391,25 @@ G1 → G2 → G3 → G4
 - [x] **H4. 重建、对账与交付**
   - 重建 HTML/PDF；`run_all --check` 与 `privacy_check` 通过。
   - 更新 methods/number_audit/red_team/case_studies/review_checklist/log；commit；tag `v1.1-paper`。
+
+---
+
+## 11. 阶段 R：公开仓库发布（2026-11-13，用户批准）
+
+> 背景：用户要求把项目发布到 GitHub public 仓库，并写中英双语 README。
+> 公开前必须清理源路径标识；数据源仍只读，原始数据不上传。
+
+- [ ] **R1. 路径脱敏与历史清理**
+  - 将源路径/仓库路径标识替换为 `C:\path\to\valuation` / `C:\path\to\agent-language`（文档、代码、聚合、manifest、完整历史）。
+  - 从 git 历史移除压缩的 `paper/paper.pdf` / `paper/paper.html`，重建后重新提交。
+  - `analysis/config.py` 改用 `VALUATION_SRC` 环境变量；`audit.py` / `manifest.py` 输出占位路径，重跑后不得再写入真实路径。
+  - 验收：工作区与完整历史中 0 个源路径标识；`run_all --check`、`privacy_check --all` 通过。
+
+- [ ] **R2. 双语 README 与公开伦理说明**
+  - `README.md`（中文，默认）与 `README.en.md`（英文），含研究问题、数据规模、主要发现、目录、论文入口、复现、隐私/伦理、引用。
+  - 更新 `docs/ethics.md` 为公开口径。
+  - 验收：两个 README 信息一致；无敏感信息。
+
+- [ ] **R3. 发布到 GitHub public**
+  - 创建 public 仓库 `agent-language-emergence`，推送 `master` 与 tags `v1.0-paper`、`v1.1-paper`。
+  - 验收：`gh repo view` 可见；README 渲染正常；远端无敏感文件。

@@ -29,3 +29,4 @@
 - 2026-11-13 09:15 UTC | R1-R3 | START | 继续 Qwen 因额度耗尽而中断的公开发布任务：先路径脱敏与历史清理，再写双语 README，最后建 public 仓库并推送 | 仓库外已有完整 bundle 备份并通过 `git bundle verify`；filter-repo 先在临时克隆上验证通过（0 个源路径标识，tags 保留）
 - 2026-11-13 09:35 UTC | R1 | DONE | git filter-repo --replace-text + 移除历史 PDF/HTML；config/audit/manifest 占位路径；重建 paper | 13 个 commit 与 2 个 tag 保留；全历史 0 个源路径标识；manifest 74 聚合；PDF 56 页且元数据/正文 0 命中；`run_all --check`、`privacy_check --all` 通过 | 备份 bundle 已验证
 - 2026-11-13 09:55 UTC | R2 | DONE | README.md（中文默认）/ README.en.md / docs/ethics.md / requirements.txt / LICENSE / LICENSE-paper | 双语结构与数字一致（2,202/110,413/116,131/96.4 亿/69 词/2,283 valution）；公开口径明确原始数据不公开；privacy_check --all 通过；0 个源路径标识
+- 2026-11-13 10:10 UTC | R3 | DONE | gh repo create agent-language-emergence --public --source=. --push；推送 v1.0-paper / v1.1-paper | https://github.com/HBZHSN/agent-language-emergence；远端 199 文件、74 聚合、12 图；README 中文默认并渲染正常；deep scan 288 blobs 0 命中（作者邮箱按要求保留）；无 data/private、data/derived、日志或 .env

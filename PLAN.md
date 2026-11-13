@@ -410,6 +410,6 @@ G1 → G2 → G3 → G4
   - 更新 `docs/ethics.md` 为公开口径。
   - 验收：两个 README 信息一致；无敏感信息。
 
-- [ ] **R3. 发布到 GitHub public**
+- [x] **R3. 发布到 GitHub public**
   - 创建 public 仓库 `agent-language-emergence`，推送 `master` 与 tags `v1.0-paper`、`v1.1-paper`。
   - 验收：`gh repo view` 可见；README 渲染正常；远端无敏感文件。

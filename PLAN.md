@@ -399,7 +399,7 @@ G1 → G2 → G3 → G4
 > 背景：用户要求把项目发布到 GitHub public 仓库，并写中英双语 README。
 > 公开前必须清理源路径标识；数据源仍只读，原始数据不上传。
 
-- [ ] **R1. 路径脱敏与历史清理**
+- [x] **R1. 路径脱敏与历史清理**
   - 将源路径/仓库路径标识替换为 `C:\path\to\valuation` / `C:\path\to\agent-language`（文档、代码、聚合、manifest、完整历史）。
   - 从 git 历史移除压缩的 `paper/paper.pdf` / `paper/paper.html`，重建后重新提交。
   - `analysis/config.py` 改用 `VALUATION_SRC` 环境变量；`audit.py` / `manifest.py` 输出占位路径，重跑后不得再写入真实路径。

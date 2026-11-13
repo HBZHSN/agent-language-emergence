@@ -347,7 +347,7 @@ def audit_filesystem() -> dict:
         rows.append(
             {
                 "directory": name,
-                "path": str(base),
+                "path": config.display_path(base),
                 "files": files,
                 "bytes": total,
                 "gb": round(total / 1e9, 2),

@@ -61,7 +61,8 @@ def build() -> dict:
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "counts": counts(),
         "source": [
-            {"path": str(p), "sha256": sha256(p), "bytes": p.stat().st_size} for p in source_files()
+            {"path": config.display_path(p), "sha256": sha256(p), "bytes": p.stat().st_size}
+            for p in source_files()
         ],
         "aggregates": [
             {"path": str(p.relative_to(config.ROOT)), "sha256": sha256(p), "bytes": p.stat().st_size}
@@ -106,7 +107,7 @@ def check() -> bool:
             print("HASH MISMATCH", item["path"])
             ok = False
     for item in m["source"]:
-        p = Path(item["path"])
+        p = config.resolve_path(item["path"])
         if p.exists() and sha256(p) != item["sha256"]:
             print("SOURCE CHANGED", item["path"])
             # Source DBs can legitimately change if the production system runs;

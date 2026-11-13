@@ -3,9 +3,13 @@
 from __future__ import annotations
 
 import subprocess
+import sys
 from pathlib import Path
 
 from markdown_it import MarkdownIt
+
+if __package__ in (None, ""):
+    sys.path[0] = str(Path(__file__).resolve().parents[1])
 
 from analysis import config
 

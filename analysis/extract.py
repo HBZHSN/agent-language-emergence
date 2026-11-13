@@ -15,9 +15,14 @@ from __future__ import annotations
 import json
 import re
 import sqlite3
+import sys
 from datetime import datetime, timezone
+from pathlib import Path
 
 import pandas as pd
+
+if __package__ in (None, ""):
+    sys.path[0] = str(Path(__file__).resolve().parents[1])
 
 from analysis import config
 

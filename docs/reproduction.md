@@ -3,10 +3,15 @@
 ## 1. 环境
 
 - Windows（win32），PowerShell 7。
-- Python 3.14（`C:\path\to\AppData\Local\Python\pythoncore-3.14-64\python.exe`）。
+- Python 3.14（`python`）。
 - 依赖：pandas、numpy、matplotlib、scipy、scikit-learn、networkx、statsmodels、jieba、pyarrow、markdown-it-py、pypdf、pymupdf。
-- 源数据：`C:\path\to\valuation`（只读）。
-- 本仓库：`C:\path\to\agent-language`。
+- 源数据根目录：`C:\path\to\valuation`（占位符，只读）。复现前设置：
+
+```powershell
+$env:VALUATION_SRC = 'C:\path\to\valuation'
+```
+
+- 本仓库根目录：`C:\path\to\agent-language`（占位符）。
 
 ## 2. 一键流程
 
@@ -64,7 +69,7 @@ python -m analysis.privacy_check --all
 | `paper/tables/*.md` | 14 张表 |
 | `paper/paper.md` | 论文源文件 |
 | `paper/paper.html` | 排版 HTML |
-| `paper/paper.pdf` | 46 页 PDF |
+| `paper/paper.pdf` | 56 页 PDF |
 
 ## 5. 常见问题
 

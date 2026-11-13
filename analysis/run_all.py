@@ -7,6 +7,13 @@ import os
 import subprocess
 import sys
 import time
+from pathlib import Path
+
+# Allow both ``python analysis/run_all.py`` and ``python -m analysis.run_all``.
+# Replace (not prepend) the script directory so analysis/compression.py does
+# not shadow Python 3.14's stdlib ``compression`` package.
+if __package__ in (None, ""):
+    sys.path[0] = str(Path(__file__).resolve().parents[1])
 
 from analysis import config, manifest
 

@@ -12,7 +12,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-SRC = Path(os.environ.get("VALUATION_SRC", r"C:\path\to\valuation"))
+# The production data root is supplied locally through VALUATION_SRC.  The
+# fallback is a documented placeholder, never a real machine path, so public
+# artifacts and git history cannot leak the source location.
+SRC_PLACEHOLDER = r"C:\path\to\valuation"
+ROOT_PLACEHOLDER = r"C:\path\to\agent-language"
+SRC = Path(os.environ.get("VALUATION_SRC", SRC_PLACEHOLDER))
 OPENCODE_DB = SRC / "data" / "opencode" / "state" / "opencode" / "opencode.db"
 VALUATION_DB = SRC / "data" / "valuation.db"
 CONFIG_JSON = SRC / "data" / "opencode" / "config.json"
@@ -118,11 +123,43 @@ def connect_valuation() -> sqlite3.Connection:
     return con
 
 
-def rel(path: Path) -> str:
+def _relative_to(path: Path, base: Path) -> Path | None:
     try:
-        return str(path.relative_to(ROOT))
-    except ValueError:
-        return str(path)
+        return path.resolve().relative_to(base.resolve())
+    except (ValueError, OSError):
+        return None
+
+
+def display_path(path: Path) -> str:
+    """Return a public, stable path with real roots replaced by placeholders."""
+    path = Path(path)
+    rel = _relative_to(path, SRC)
+    if rel is not None:
+        return str(Path(SRC_PLACEHOLDER) / rel)
+    rel = _relative_to(path, ROOT)
+    if rel is not None:
+        return str(Path(ROOT_PLACEHOLDER) / rel)
+    return str(path)
+
+
+def resolve_path(value: str) -> Path:
+    """Map placeholder paths back to the locally configured roots."""
+    text = str(value)
+    for placeholder, base in (
+        (SRC_PLACEHOLDER, SRC),
+        (ROOT_PLACEHOLDER, ROOT),
+    ):
+        if text.lower().startswith(placeholder.lower()):
+            tail = text[len(placeholder):].lstrip("\\/")
+            return base / tail
+    return Path(text)
+
+
+def rel(path: Path) -> str:
+    rel_path = _relative_to(path, ROOT)
+    if rel_path is not None:
+        return str(rel_path)
+    return display_path(path)
 
 
 def write_markdown_table(rows: list[dict], path: Path) -> None:

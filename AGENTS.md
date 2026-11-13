@@ -29,14 +29,19 @@
 ## 3. 环境与命令
 
 - 操作系统：Windows（win32），PowerShell 7。
-- Python：`C:\path\to\AppData\Local\Python\pythoncore-3.14-64\python.exe`（3.14）。
-- 已安装：pandas、numpy、matplotlib、scipy、scikit-learn、networkx、statsmodels、jieba、pyarrow、python-docx。
-- 本仓库根目录：`C:\path\to\agent-language`。
+- Python：3.14（`python`；依赖见 `docs/reproduction.md`）。
+- 本仓库根目录：`C:\path\to\agent-language`（公开文档中的占位符）。
+- 源数据根目录：`C:\path\to\valuation`（公开文档中的占位符）。本地复现时用环境变量指向只读数据根目录：
+
+```powershell
+$env:VALUATION_SRC = 'C:\path\to\valuation'
+```
+
 - 源数据：
-  - `C:\path\to\valuation\data\opencode\state\opencode\opencode.db`（会话/消息/工具调用，约 722 MB）
-  - `C:\path\to\valuation\data\valuation.db`（业务库，约 5.5 GB，含 1,586 万条科目明细）
-  - `C:\path\to\valuation\data\snapshots\`（原始估值表快照，约 8.9 万个文件）
-  - `C:\path\to\valuation\data\jobs\`、`results\`、`diagnostics\`、`harness-watch\`
+  - `$env:VALUATION_SRC\data\opencode\state\opencode\opencode.db`（会话/消息/工具调用，约 722 MB）
+  - `$env:VALUATION_SRC\data\valuation.db`（业务库，约 5.5 GB，含 1,586 万条科目明细）
+  - `$env:VALUATION_SRC\data\snapshots\`（原始估值表快照，约 8.9 万个文件）
+  - `$env:VALUATION_SRC\data\jobs\`、`results\`、`diagnostics\`、`harness-watch\`
 - 常用命令：
 
 ```powershell

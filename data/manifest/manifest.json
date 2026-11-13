@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13T08:43:05.225704+00:00",
+  "generated_at": "2026-11-13T09:12:00.332478+00:00",
   "counts": {
     "sessions": 2202,
     "messages": 110413,
@@ -148,8 +148,8 @@
     },
     {
       "path": "data\\aggregates\\b3_filesystem_inventory.csv",
-      "sha256": "f568cca3a9dfde15b71667492abc30008cb02b1f08690cd6d3fa277d7b8c2487",
-      "bytes": 752
+      "sha256": "e353042199b7144381cf82bac8ea3f2f0eaa2531d6c92af92d7182f96cfcafd7",
+      "bytes": 696
     },
     {
       "path": "data\\aggregates\\b5_key_events.csv",
@@ -458,8 +458,8 @@
     }
   ],
   "paper_pdf": {
-    "sha256": "6a0ee270dc5c1acbb43b9133925b05b12073883786f46e80345ce8bb7f4509b2",
-    "bytes": 3736288,
+    "sha256": "90fe03d00e00c3b201d3273e0afe6386e4508da25fa29b8e7801f8610278c150",
+    "bytes": 3736278,
     "pages": 56
   }
 }

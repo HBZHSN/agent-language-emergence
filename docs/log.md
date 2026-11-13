@@ -27,3 +27,4 @@
 - 2026-11-13 08:48 UTC | H4 | DONE | build_paper.py + number_audit.py + 重建 HTML/PDF + 文档 + 提交 | HTML 89,158 字符；PDF 56 页；run_all --check exit 0；privacy_check 通过；number_audit 0/33 失败；更新 methods/number_audit/red_team/case_studies/review_checklist/log；tag v1.1-paper
 
 - 2026-11-13 09:15 UTC | R1-R3 | START | 继续 Qwen 因额度耗尽而中断的公开发布任务：先路径脱敏与历史清理，再写双语 README，最后建 public 仓库并推送 | 仓库外已有完整 bundle 备份并通过 `git bundle verify`；filter-repo 先在临时克隆上验证通过（0 个源路径标识，tags 保留）
+- 2026-11-13 09:35 UTC | R1 | DONE | git filter-repo --replace-text + 移除历史 PDF/HTML；config/audit/manifest 占位路径；重建 paper | 13 个 commit 与 2 个 tag 保留；全历史 0 个源路径标识；manifest 74 聚合；PDF 56 页且元数据/正文 0 命中；`run_all --check`、`privacy_check --all` 通过 | 备份 bundle 已验证
